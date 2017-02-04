@@ -1,9 +1,8 @@
-mt_text.aux
-mt_text.idx
-mt_text.lof
-mt_text.log
-mt_text.lot
-mt_text.out
-mt_text.pdf
-mt_text.toc
-mt_text.synctex.gz
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.gz
+*.toc

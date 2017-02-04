@@ -1,43 +1,31 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% I, the copyright holder of this work, release this work into the
-%% public domain. This applies worldwide. In some countries this may
-%% not be legally possible; if so: I grant anyone the right to use
-%% this work for any purpose, without any conditions, unless such
-%% conditions are required by law.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \documentclass[
-  digital, %% This option enables the default options for the
-           %% digital version of a document. Replace with `printed`
-           %% to enable the default options for the printed version
-           %% of a document.
-  table,   %% Causes the coloring of tables. Replace with `notable`
-           %% to restore plain tables.
-  lof,     %% Prints the List of Figures. Replace with `nolof` to
-           %% hide the List of Figures.
-  lot     %% Prints the List of Tables. Replace with `nolot` to
-           %% hide the List of Tables.
+  digital, %% Replace with `printed` to enable the default options for the printed version
+  oneside,
+  notable, %% `table` causes the coloring of tables. Replace with `notable` to restore plain tables.
+  nolof,     %% `lof` prints the List of Figures. Replace with `nolof` to hide the List of Figures.
+  nolot     %% `lot` rints the List of Tables. Replace with `nolot` to hide the List of Tables.
   %% More options are listed in the user guide at
   %% <http://mirrors.ctan.org/macros/latex/contrib/fithesis/guide/mu/fi.pdf>.
 ]{fithesis3}
 \usepackage[utf8]{inputenc}
 %% The following section sets up the locales used in the thesis.
-\usepackage[resetfonts]{cmap} %% We need to load the T2A font encoding
-\usepackage[T1,T2A]{fontenc}  %% to use the Cyrillic fonts with Russian texts.
-\usepackage[
-  main=english
-]{babel}
+%\usepackage[resetfonts]{cmap} %% We need to load the T2A font encoding
+%\usepackage[T1,T2A]{fontenc}  %% to use the Cyrillic fonts with Russian texts.
+
+
+
 \thesissetup{
     date          = 2017/05/22,
     university    = mu,
     faculty       = fi,
     type          = mgr,
-    author        = Josef Pavelec,
+    author        = {Josef Pavelec},
     gender        = m,
-    advisor       = Andriy Stetsko,
+    advisor       = {RNDr. Andriy Stetsko, PhD.},
     title         = {Optimization of JVM settings for application performance},
-%%    TeXtitle      = {The Proof of $\mathsf{P}=\mathsf{NP}$},
+%    TeXtitle      = {The Proof of $\mathsf{P}=\mathsf{NP}$},
     keywords      = {JVM settings, Optimization},
+%    bib         = 
 %%    TeXkeywords   = {keyword1, keyword2, \ldots},
 }
 \thesislong{abstract}{
@@ -46,54 +34,24 @@
 \thesislong{thanks}{
     Will be written in the end.
 }
-\usepackage{makeidx}      %% The `makeidx` package contains
-\makeindex                %% helper commands for index typesetting.
-%% These additional packages are used within the document:
-\usepackage{paralist}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{amsfonts}
-\usepackage{url}
-\usepackage{menukeys}
-\usepackage{hyperref}
+
+
+
+%%% ======================================================= %%%
 
 \begin{document}
 \chapter{Introduction}
     Will be written in the end.
+    \cite{ref}
 
 
-
+%%% ======================================================= %%%
 \chapter{Java Virtual Machine}
+\bibliographystyle{bibintoc}
+\bibliography{bibfile}
 
-\section{JVM}
-Krátký popis JVM + podrobnější popis možností nastavení (options + jejich třídy(standar, -X, -XX))
-
-\section{Metodika}
-Způsob, jakým byly vybrány options (big impact, small impact, not relevant, not documented), primitive vs. complex \newline
-Zdroje, na základě kterých byly touto metodikou options vybrány.
-
-\section{Nejdůležitější options}
-Výběr nejvýznamnějších options s krátkým komentáře. Zbylé zahrnout do přílohy.
-
-\section{Srovnání options mezi např. 7 a 8/ 8 a 9/ win a linux}
-
-
-
-
-
-
-
-
-
-\chapter{Bibliography}
-\bibliography{bibliography}
-[1] Scott Oaks; Java Performance: The Definitive Guide, O'Reilly Media \newline
-[2] Charlie Hunt, Binu John; Java Performance, Addison-Wesley \newline
-[3] http://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html
-
-
-
+Scott Oaks; Java Performance: The Definitive Guide, O'Reilly Media \newline
+Charlie Hunt, Binu John; Java Performance, Addison-Wesley \newline
+http://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html
 
 \end{document}
-\grid
-\grid
