@@ -8,6 +8,7 @@
   %% <http://mirrors.ctan.org/macros/latex/contrib/fithesis/guide/mu/fi.pdf>.
 ]{fithesis3}
 \usepackage[utf8]{inputenc}
+\usepackage{textcomp}
 %% The following section sets up the locales used in the thesis.
 %\usepackage[resetfonts]{cmap} %% We need to load the T2A font encoding
 %\usepackage[T1,T2A]{fontenc}  %% to use the Cyrillic fonts with Russian texts.
@@ -23,9 +24,7 @@
     gender        = m,
     advisor       = {RNDr. Andriy Stetsko, PhD.},
     title         = {Optimization of JVM settings for application performance},
-%    TeXtitle      = {The Proof of $\mathsf{P}=\mathsf{NP}$},
     keywords      = {JVM settings, Optimization},
-%    bib         = 
 %%    TeXkeywords   = {keyword1, keyword2, \ldots},
 }
 \thesislong{abstract}{
@@ -42,16 +41,54 @@
 \begin{document}
 \chapter{Introduction}
     Will be written in the end.
-    \cite{ref}
-
 
 %%% ======================================================= %%%
 \chapter{Java Virtual Machine}
-\bibliographystyle{bibintoc}
+
+Java Virtual Machine (JVM) is an abstract computing machine. JVM can not process any program written in Java language (stored in \texttt{java} source file) but it executes only program called \textit{bytecode} which is stored in \texttt{class} file. A Java \texttt{class} file is produced from \texttt{java} source file by Java compiler. JVM, like a real computing machine, has own instruction set for processing \textit{bytecode}. For running compiled Java program it's necessary to have only an implementation of JVM for a given platform. Described approach offers the ability for applications to be developed in a platform-independent manner and it can be shortened by Sun Microsystems slogan: "\textit{Write once, run anywhere}".\cite{spec}
+
+In the context of the JVM it should distinguish three terms:
+\begin{itemize}
+	\item "\textbf{specification} is a document that formally describes what is required of a JVM implementation.
+	\item \textbf{implementation} is a computer program that meets the requirements of the JVM specification.
+	\item \textbf{instance} is an implementation running in a process that executes a computer program compiled into Java bytecode."\cite{brief}
+\end{itemize}
+
+
+"To implement the Java Virtual Machine (JVM) correctly, you need only be able to read the \texttt{class} file format and correctly perform the specified operations. Implementation details that are not part of the Java Virtual Machine's specification would unnecessarily constrain the creativity of implementors. For example, the memory layout of run-time data areas, the garbage-collection algorithm used, and any internal optimization of the JVM instructions (for example, translating them into machine code) are left to the discretion of the implementor." \cite{spec}
+
+There are many implementations of JVM\footnote{Extensive list of JVM implementation is accessible on \url{https://en.wikipedia.org/wiki/List_of_Java_virtual_machines}}. This chapter of thesis deals with the Java HotSpot Virtual Machine respective to Java Development Kit 8 (JDK 8) which is primary reference JVM implementation. This version is latest because JDK 9 release is scheduled for July 2017\footnote{\url{https://blogs.oracle.com/java/proposed-schedule-change-for-java-9}}.
+
+\section{HotSpot}
+The Java 8 HotSpot Virtual Machine implementation is maintained by Oracle corporation. It implements JVM 8 specification and trying to achieved best results for executing \textit{bytecode} in areas such as automatic memory management or compilation to native code.
+
+First version of JVM was interpreted. Since statement "\textit{Java is slow}" endures notwithstanding it's not true in these days. There will be described why it's not true in next sections.
+
+As mentioned earlier, main purpose of JVM is executing \textit{bytecode} on specific platform which means translating \textit{bytecode} to native code of CPU. Because interpreting of \textit{bytecode} had appeared like inefficient there was introduced approach called \textit{Just-In-Time} compilation (JIT) in Java 1.2 \cite{javavsc}. A JVM implementation with JIT compiler translates program to native code during running time.
+
+
+
+
+\subsection{GC}
+\subsection{C1/C2}
+
+
+\section{Setting options}\cite{java}
+\begin{itemize}
+	\item Standard options
+	\item Nonstandard options
+\end{itemize}
+
+JVM je zasobnikovy pocitac
+Ergonomics - Automatic Selections and behavior tuning 
+
+Java Flight Recorder
+Moznosti analyzy vykonu - vmstat jconsole, prepinace -XX:PrintGCDetails/-XX:PrintGCTimeStamps
+
+
+
+\bibliographystyle{IEEEtran}
 \bibliography{bibfile}
 
-Scott Oaks; Java Performance: The Definitive Guide, O'Reilly Media \newline
-Charlie Hunt, Binu John; Java Performance, Addison-Wesley \newline
-http://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html
 
 \end{document}
