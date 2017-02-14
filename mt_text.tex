@@ -130,7 +130,7 @@ It's possible to categorize JVM options into following groups:
 	\item \textbf{Big Impact} -- these options were evaluated as most important for performance impact. Some options require enabling another option and are called \textit{complex} (e.g. for use \texttt{-XX:TieredCompilation} option is necessary using \texttt{-server} option). Another options doesn't require enabling "parent" option and are called \textit{primitive}. Lists of \textit{complex} (see \ref{bigimpactcomplex}) and \textit{primitive} (see \ref{bigimpactprimitive}) options are stored in the appendix of this thesis.
 	\item \textbf{Small Impact} -- options in this group are considered having not too much big impact for performance but in the certain situations can significantly influence JVM behavior (e.g. \texttt{-XX:GCHeapFreeLimit} option).
 	\item \textbf{Not Relevant} -- essentially, there are options that don't have any influence for performance. They are particularly "printers" -- options which only print some diagnostic information (e.g. \texttt{-XX:PrintGCDateStamps}) or commercial features.
-	\item \textbf{Not Documented} -- represents the biggest set of options with no documentation (e.g. \texttt{-XX:CompactFields})
+	\item \textbf{Not Documented} -- represents the biggest set of options with no documentation (e.g. \texttt{-XX:CompactFields}).
 \end{itemize}
 
 In the picture \ref{classify} there is a way how all options of JVM was splitted.
@@ -144,15 +144,16 @@ In the picture \ref{classify} there is a way how all options of JVM was splitted
 
 \chapter{Tools}
 \section{Analytic tools}
+{\color{red} Popsat jconsole apod.}
 \section{Automatic optimization tools}
-Complex - C1/C2
+{\color{red} Popsat JATT, applicare}
 
 
-JVM je zasobnikovy pocitac
-Ergonomics - Automatic Selections and behavior tuning 
+%JVM je zasobnikovy pocitac
+%Ergonomics - Automatic Selections and behavior tuning 
 
-Java Flight Recorder
-Moznosti analyzy vykonu - vmstat jconsole, prepinace -XX:PrintGCDetails/-XX:PrintGCTimeStamps
+%Java Flight Recorder
+%Moznosti analyzy vykonu - vmstat jconsole, prepinace -XX:PrintGCDetails/-XX:PrintGCTimeStamps
 
 
 
