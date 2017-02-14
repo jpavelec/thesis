@@ -9,6 +9,9 @@
 ]{fithesis3}
 \usepackage[utf8]{inputenc}
 \usepackage{textcomp}
+\usepackage{color}
+\usepackage[hyphens]{url}
+\usepackage{multirow}
 %% The following section sets up the locales used in the thesis.
 %\usepackage[resetfonts]{cmap} %% We need to load the T2A font encoding
 %\usepackage[T1,T2A]{fontenc}  %% to use the Cyrillic fonts with Russian texts.
@@ -45,13 +48,13 @@
 %%% ======================================================= %%%
 \chapter{Java Virtual Machine}
 
-Java Virtual Machine (JVM) is an abstract computing machine. JVM can not process any program written in Java language (stored in \texttt{java} source file) but it executes only program called \textit{bytecode} which is stored in \texttt{class} file. A Java \texttt{class} file is produced from \texttt{java} source file by Java compiler. JVM, like a real computing machine, has own instruction set for processing \textit{bytecode}. For running compiled Java program it's necessary to have only an implementation of JVM for a given platform. Described approach offers the ability for applications to be developed in a platform-independent manner and it can be shortened by Sun Microsystems slogan: "\textit{Write once, run anywhere}".\cite{spec}
+Java Virtual Machine (JVM) is an abstract computing machine. JVM can not process any program written in Java language (stored in \texttt{java} source file) but it executes only program called \textit{bytecode} which is stored in \texttt{class} file. A Java \texttt{class} file is produced from \texttt{java} source file by Java compiler. JVM, like a real computing machine, has own instruction set for processing \textit{bytecode}. For running compiled Java program it's necessary to have only an implementation of JVM for a given platform. Described approach offers the ability for applications to be developed in a platform-independent manner and it can be shortened by Sun Microsystems slogan: "\textit{Write once, run anywhere}". \cite{spec}
 
 In the context of the JVM it should distinguish three terms:
 \begin{itemize}
 	\item "\textbf{specification} is a document that formally describes what is required of a JVM implementation.
 	\item \textbf{implementation} is a computer program that meets the requirements of the JVM specification.
-	\item \textbf{instance} is an implementation running in a process that executes a computer program compiled into Java bytecode."\cite{brief}
+	\item \textbf{instance} is an implementation running in a process that executes a computer program compiled into Java bytecode." \cite{brief}
 \end{itemize}
 
 
@@ -59,25 +62,91 @@ In the context of the JVM it should distinguish three terms:
 
 There are many implementations of JVM\footnote{Extensive list of JVM implementation is accessible on \url{https://en.wikipedia.org/wiki/List_of_Java_virtual_machines}}. This chapter of thesis deals with the Java HotSpot Virtual Machine respective to Java Development Kit 8 (JDK 8) which is primary reference JVM implementation. This version is latest because JDK 9 release is scheduled for July 2017\footnote{\url{https://blogs.oracle.com/java/proposed-schedule-change-for-java-9}}.
 
-\section{HotSpot}
+\section{Java HotSpot VM}
 The Java 8 HotSpot Virtual Machine implementation is maintained by Oracle corporation. It implements JVM 8 specification and trying to achieved best results for executing \textit{bytecode} in areas such as automatic memory management or compilation to native code.
 
 First version of JVM was interpreted. Since statement "\textit{Java is slow}" endures notwithstanding it's not true in these days. There will be described why it's not true in next sections.
 
-As mentioned earlier, main purpose of JVM is executing \textit{bytecode} on specific platform which means translating \textit{bytecode} to native code of CPU. Because interpreting of \textit{bytecode} had appeared like inefficient there was introduced approach called \textit{Just-In-Time} compilation (JIT) in Java 1.2 \cite{javavsc}. A JVM implementation with JIT compiler translates program to native code during running time.
+As mentioned earlier, main purpose of JVM is executing \textit{bytecode} on specific platform which means translating \textit{bytecode} to native code of CPU. Because interpreting of \textit{bytecode} had appeared like inefficient there was introduced approach called \textit{Just-In-Time} compilation (JIT) in Java 1.2 \cite{javavsc}. A JVM implementation with JIT compiler translates program into native code on the fly. Native code is cached and reused without recompiled. Extent of native code optimization is limited in this case because translation should be fast.
 
+Java HotSpot VM is appropriately named after approach it takes toward compiling the code. A small part of code is executed frequently in a common programs. Frequent code sections represent approximately 20 \%\footnote{\url{http://artiomg.blogspot.cz/2011/10/just-in-time-compiler-jit-in-hotspot.html}} which is in accordance with the Pareto principle. These sections are called \textit{hot spots}. The more the section of code is executed, the hotter section is said to be. The faster will be \textit{hot spots} executed, the higher performance of an application will be. \cite{scott}
 
+Oracle's HotSpot VM combines interpretation and translation. First, it interprets all code and concurrently collects information how often code is executed and additional data. After that JVM uses collected information for compilation with a high level of optimization. The more information about code JVM has, the more level of optimization it can achieved but for the price of the slow interpretation in the beginning. Actually, depending on the level of optimization there are two different compilers in HotSpot JVM -- \textbf{client} and \textbf{server}.
 
-
-\subsection{GC}
-\subsection{C1/C2}
-
-
-\section{Setting options}\cite{java}
+Another important role of any JVM implementations is automatic memory management knowns as \textbf{Garbage collections (GC)}. There are four different algorithms (called as Garbage Collectors) that provide this task in HotSpot:
 \begin{itemize}
-	\item Standard options
-	\item Nonstandard options
+	\item \textbf{serial collector}
+	\item \textbf{parallel (throughput) collector}
+	\item \textbf{concurrent (CMS) collector}
+	\item \textbf{G1 collector}
 \end{itemize}
+Every of garbage collectors has quite different performance characteristics and is suitable for different category of an application and environment. \cite{scott}
+
+
+{\color{red} Je nutné v následujících podkapitolách podrobněji rozebrat jednotlivé překladače a kolektory? Přece jen se práce zaměřuje na ladění výkonu. Na druhou stranu bez uvedení specifik pro jednotlivé kolektory nebude možné se odkazovat proč jsme například použili CMS místo parallel a naopak. Přikláněl bych se je uvést protože např. parallel GC ma za cíl co nejvyšší propustnost a CMS GC zase minimalizuje délku \textit{stop-the-world} pauzy. Pokud bychom měli metriku s nejvýznamnější váhou právě na minimalizaci \textit{stop-the-world} (předpokládám, že tato situace může nastat, protože cílová aplikace -- terminál -- obsluhuje požadavky od uživatele) bude možné říct, PROČ je CMS GC vhodnější oproti jiným kolektorům.}
+\subsection{Client compiler}
+\subsection{Server compiler}
+\subsection{Garbage collectors}
+
+\section{Setting options}
+There are many options how to adjust behavior JVM. For example, we may enforce to use parallel collector or set maximum heap\footnote{Heap is a memory area that JVM uses for residing the Java objects.} size. Options are divided into several categories:
+\begin{itemize}
+	\item "\textbf{Standard options} -- are guaranteed to be supported by all implementations of the Java Virtual Machine (JVM). They are used for common actions, such as checking the version of the JRE, setting the class path, enabling verbose output, and so on.
+	\item \textbf{Non-standard options} -- are general purpose options that are specific to the Java HotSpot Virtual Machine, so they are not guaranteed to be supported by all JVM implementations, and are subject to change. These options start with \texttt{-X}.
+	\item \textbf{Advanced options} -- are not recommended for casual use. These are developer options used for tuning specific areas of the Java HotSpot Virtual Machine operation that often have specific system requirements and may require privileged access to system configuration parameters. They are also not guaranteed to be supported by all JVM implementations, and are subject to change. Advanced options start with \texttt{-XX}." \cite{java}
+\end{itemize}
+For listing all standard options is used command \texttt{java -?} and non-standard options \texttt{java -X}. A situation for listing advanced options becomes little complicated because we have to make a decision which supersets of advanced option we want to list. On the other hand, diagnostic options superset is not point of interest in this thesis because these options not meant for VM tunning or for product mode. Similarly commercial features. Therefore for listing advanced options which are relevant for this thesis command \texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} was used. List of advanced options contains option name, type (e.g. bool, (u)intx, ccstr) and default value (see section \ref{erg}) and category (e.g. product, experimental).
+
+Generally, there are two types of advanced options: boolean options, and options that require a parameter. Boolean options use syntax: \texttt{-XX:+OptionName} enables the option, and \texttt{-XX:-OptionName} disables the option. Options with parameter use syntax: \texttt{-XX:OptionName=value}, meaning to set the value of \texttt{OptionName} to \texttt{value}. \cite{scott}
+
+
+
+\section{Java ergonomics}\label{erg}
+"Ergonomics is the process by which the Java Virtual Machine (JVM) and garbage collection tuning, such as behavior-based tuning, improve application performance. The JVM provides platform-dependent default selections for the garbage collector, heap size, and runtime compiler. These selections match the needs of different types of applications while requiring less command-line tuning. In addition, behavior-based tuning dynamically tunes the sizes of the heap to meet a specified behavior of the application." \cite{ergonomics}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		\textbf{Platform} & \textbf{Operating System} & \textbf{Default} & \textbf{Server-Class} \\ \hline
+		i586              & Linux                     & Client           & Server                           \\ \hline
+		i586              & Windows                   & Client           & Client                           \\ \hline
+		SPARC (64-bit)    & Solaris                   & Server           & Server                           \\ \hline
+		AMD (64-bit)      & Linux                     & Server           & Server                           \\ \hline
+		AMD (64-bit)      & Windows                   & Server           & Server                           \\ \hline
+	\end{tabular}
+	\caption{Determination the runtime compiler for different platforms. Server-class machine has been defined as machine with two or more physical processors and two or more GB of physical memory. Taken from \cite{ergonomics}.}
+	\label{my-label}
+\end{table}
+
+Default values which are shown in the list produced by \texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} command are based on Java ergonomics. E.g. for server-class machine is default value for initial heap size of 1/64 of physical memory up to 1 GB and maximum heap size of 1/4 of physical memory up to 1 GB and parallel collector is set as default. \cite{ergonomics}
+
+
+\chapter{Methodology of choosing important options}
+First step to tunning JVM for performance optimization is determination options which has considerable performance impact. The option set contains 815 options\footnote{The sum of 21 standard, 26 non-standard and 768 advanced (\texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} command) options for Java HotSpot\texttrademark{} 64-Bit Server VM (build 25.111-b14, mixed mode).}. In addition, it can be assumed that options without documentation, on Oracle's official sites (\cite{java}) and options which are not mentioned in a literature deals with Java performance (\cite{scott}, \cite{hunt}), are not so important.
+
+It's possible to categorize JVM options into following groups:
+\begin{itemize}
+	\item \textbf{Big Impact} -- these options were evaluated as most important for performance impact. Some options require enabling another option and are called \textit{complex} (e.g. for use \texttt{-XX:TieredCompilation} option is necessary using \texttt{-server} option). Another options doesn't require enabling "parent" option and are called \textit{primitive}. Lists of \textit{complex} (see \ref{bigimpactcomplex}) and \textit{primitive} (see \ref{bigimpactprimitive}) options are stored in the appendix of this thesis.
+	\item \textbf{Small Impact} -- options in this group are considered having not too much big impact for performance but in the certain situations can significantly influence JVM behavior (e.g. \texttt{-XX:GCHeapFreeLimit} option).
+	\item \textbf{Not Relevant} -- essentially, there are options that don't have any influence for performance. They are particularly "printers" -- options which only print some diagnostic information (e.g. \texttt{-XX:PrintGCDateStamps}) or commercial features.
+	\item \textbf{Not Documented} -- represents the biggest set of options with no documentation (e.g. \texttt{-XX:CompactFields})
+\end{itemize}
+
+In the picture \ref{classify} there is a way how all options of JVM was splitted.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{fig/classify.png}
+	\caption{JVM options distribution into several categories with regard to performance impact and a documentation extent.}
+	\label{classify}
+\end{figure}
+
+\chapter{Tools}
+\section{Analytic tools}
+\section{Automatic optimization tools}
+Complex - C1/C2
+
 
 JVM je zasobnikovy pocitac
 Ergonomics - Automatic Selections and behavior tuning 
@@ -89,6 +158,74 @@ Moznosti analyzy vykonu - vmstat jconsole, prepinace -XX:PrintGCDetails/-XX:Prin
 
 \bibliographystyle{IEEEtran}
 \bibliography{bibfile}
+
+\chapter{Appendix}
+\begin{table}[]
+	\centering
+	\begin{tabular}{ll}
+	\cline{1-1}
+	\multicolumn{1}{|l|}{\textbf{Primitive}}                         &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-d32 | -d64}                                &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-server | -client}                          &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-Xmixed | -Xcomp | -Xint}                   &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-Xms\textless size\textgreater}              &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-Xmx\textless size\textgreater}              &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-Xss\textless size\textgreater}              &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:AggressiveOpts}                         &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:AlwaysTenure | -XX:NeverTenure}         &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:AutoBoxCacheMax}                        &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:BackgroundCompilation}                  &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:CICompilerCount}                        &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:CICompilerCountPerCPU}                  &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:CompileThreshold}                       &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:DoEscapeAnalysis}                       &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:ErgoHeapSizeLimit}                      &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:InitialTenuringThreshold}               &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:Inline}                                 &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:MaxMetaspaceSize}                       &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:MaxNewSize}                             &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:MaxTenuringThreshold}                   &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:MetaspaceSize}                          &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:NewRatio}                               &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:NewSize}                                &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:ParallelGCThreads}                      &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:SoftRefLRUPolicyMSPerMB}                &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:SurvivorRatio}                          &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:ThreadStackSize}                        &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:UseBiasedLocking}                       &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:UseGCOverheadLimit}                     &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:UseParallelOldGC}                       &                                                             \\ \cline{1-1}
+	\multicolumn{1}{|l|}{-XX:UseSerialGC}                            &                                                             \\ \cline{1-1}
+	\end{tabular}
+	\caption{Big impact primitive option. It's possible to use any option without enabling other one.}
+	\label{bigimpactprimitive}
+\end{table}
+		
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		\multicolumn{2}{|l|}{\textbf{Complex}}                                              \\ \hline
+		-server                                    & -XX:TieredCompilation                  \\ \hline
+		\multirow{5}{*}{-XX:UseParallelGC}         & -XX:InitialSurvivorRatio               \\ \cline{2-2} 
+		& -XX:MinSurvivorRatio                   \\ \cline{2-2} 
+		& -XX:TargetSurvivorRatio                \\ \cline{2-2} 
+		& -XX:MaxGCPauseMillis                   \\ \cline{2-2} 
+		& -XX:GCTimeRatio                        \\ \hline
+		\multirow{4}{*}{-XX:UseConcMarkSweepGC}    & -XX:CMSInitiatingOccupancyFraction     \\ \cline{2-2} 
+		& -XX:UseCMSInitiatingOccupancyOnly      \\ \cline{2-2} 
+		& -XX:ConcGCThreads                      \\ \cline{2-2} 
+		& -XX:CMSClassUnloadingEnabled           \\ \hline
+		\multirow{2}{*}{-XX:UseAdaptiveSizePolicy} & -XX:UseAdaptiveSizePolicyFootprintGoal \\ \cline{2-2} 
+		& -XX:UseAdaptiveSizePolicyWithSystemGC  \\ \hline
+		\multirow{4}{*}{-XX:UseG1GC}               & -XX:MaxGCPauseMillis                    \\ \cline{2-2} 
+		& -XX:ConcGCThreads                      \\ \cline{2-2} 
+		& -XX:UseStringDeduplication             \\ \cline{2-2} 
+		& -XX:G1MixedGCLiveThresholdPercent      \\ \hline
+	\end{tabular}
+	\caption{Big impact complex options. To use option from right column it's necessary to enable option from left column.}
+	\label{bigimpactcomplex}
+\end{table}
 
 
 \end{document}
