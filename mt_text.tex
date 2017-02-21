@@ -48,7 +48,7 @@
 %%% ======================================================= %%%
 \chapter{Java Virtual Machine}
 
-Java Virtual Machine (JVM) is an abstract computing machine. JVM can not process any program written in Java language (stored in \texttt{java} source file) but it executes only program called \textit{bytecode} which is stored in \texttt{class} file. A Java \texttt{class} file is produced from \texttt{java} source file by Java compiler. JVM, like a real computing machine, has own instruction set for processing \textit{bytecode}. For running compiled Java program it's necessary to have only an implementation of JVM for a given platform. Described approach offers the ability for applications to be developed in a platform-independent manner and it can be shortened by Sun Microsystems slogan: "\textit{Write once, run anywhere}". \cite{spec}
+Java Virtual Machine (JVM) is an abstract computing machine. JVM can not process any program written in Java language (stored in \texttt{java} source file) but it executes only the program called \textit{bytecode} which is stored in a \texttt{class} file. A Java \texttt{class} file is produced from \texttt{java} source file by Java compiler (\texttt{javac program.java} command). JVM, like a real computing machine, has its own instruction set for processing \textit{bytecode}. For running compiled Java program, it's necessary to have only an implementation of JVM for a given platform. Described approach offers the ability for applications to be developed in a platform-independent manner, and it can be shortened by Sun Microsystems slogan: "\textit{Write once, run anywhere}". \cite{spec}
 
 In the context of the JVM it should distinguish three terms:
 \begin{itemize}
@@ -57,21 +57,22 @@ In the context of the JVM it should distinguish three terms:
 	\item \textbf{instance} is an implementation running in a process that executes a computer program compiled into Java bytecode." \cite{brief}
 \end{itemize}
 
+For the correct implementation of Java Virtual Machine you only need to be able to read \texttt{class} file and perform the specified operations. The Java Virtual Machine specification doesn't contains any requirements or constraints for implementation of JVM. For this reason, the memory layout of run-time data areas, the garbage-collection algorithm used, any internal optimization of the JVM instruction (e.g. translating them into native code) and other matters connected with implementation of JVM are left to the implementor. Consequently, the JVM specification doesn't describe the possible ways how to adjust a JVM behavior to achieve a better performance of a running application. \cite{spec}
 
-"To implement the Java Virtual Machine (JVM) correctly, you need only be able to read the \texttt{class} file format and correctly perform the specified operations. Implementation details that are not part of the Java Virtual Machine's specification would unnecessarily constrain the creativity of implementors. For example, the memory layout of run-time data areas, the garbage-collection algorithm used, and any internal optimization of the JVM instructions (for example, translating them into machine code) are left to the discretion of the implementor." \cite{spec}
-
-There are many implementations of JVM\footnote{Extensive list of JVM implementation is accessible on \url{https://en.wikipedia.org/wiki/List_of_Java_virtual_machines}}. This chapter of thesis deals with the Java HotSpot Virtual Machine respective to Java Development Kit 8 (JDK 8) which is primary reference JVM implementation. This version is latest because JDK 9 release is scheduled for July 2017\footnote{\url{https://blogs.oracle.com/java/proposed-schedule-change-for-java-9}}.
+There are many implementations of JVM\footnote{An extensive list of JVM implementation is accessible on \url{https://en.wikipedia.org/wiki/List_of_Java_virtual_machines}}. This chapter of the thesis deals with the Java HotSpot Virtual Machine respective to Java Development Kit 8 (JDK 8) which is the primary reference JVM implementation. This version is the latest because JDK 9 release is scheduled for July 2017\footnote{\url{https://blogs.oracle.com/java/proposed-schedule-change-for-java-9}}.
 
 \section{Java HotSpot VM}
-The Java 8 HotSpot Virtual Machine implementation is maintained by Oracle corporation. It implements JVM 8 specification and trying to achieved best results for executing \textit{bytecode} in areas such as automatic memory management or compilation to native code.
+The Java 8 HotSpot Virtual Machine implementation is maintained by Oracle corporation. It implements JVM 8 specification and seeks to achieve best results for executing \textit{bytecode} in areas such as automatic memory management or compilation to native code.
 
-First version of JVM was interpreted. Since statement "\textit{Java is slow}" endures notwithstanding it's not true in these days. There will be described why it's not true in next sections.
+Since the first version of JVM was interpreted, statement "\textit{Java is slow}" has persisted notwithstanding it's not true in these days. More information regarding this topic will be provided in next sections.
 
-As mentioned earlier, main purpose of JVM is executing \textit{bytecode} on specific platform which means translating \textit{bytecode} to native code of CPU. Because interpreting of \textit{bytecode} had appeared like inefficient there was introduced approach called \textit{Just-In-Time} compilation (JIT) in Java 1.2 \cite{javavsc}. A JVM implementation with JIT compiler translates program into native code on the fly. Native code is cached and reused without recompiled. Extent of native code optimization is limited in this case because translation should be fast.
+As mentioned earlier, the main purpose of JVM is executing \textit{bytecode} on specific platform which means translating \textit{bytecode} to native code of CPU. Since interpreting of \textit{bytecode} had appeared inefficient, an approach called \textit{Just-In-Time} compilation (JIT) was intorduced in Java 1.2 \cite{javavsc}. A JVM implementation with JIT compiler translates a program into native code on the fly. Native code is cached and reused without recompiled. Extent of native code optimization is limited in this case because translation should be fast.
 
 Java HotSpot VM is appropriately named after approach it takes toward compiling the code. A small part of code is executed frequently in a common programs. Frequent code sections represent approximately 20 \%\footnote{\url{http://artiomg.blogspot.cz/2011/10/just-in-time-compiler-jit-in-hotspot.html}} which is in accordance with the Pareto principle. These sections are called \textit{hot spots}. The more the section of code is executed, the hotter section is said to be. The faster will be \textit{hot spots} executed, the higher performance of an application will be. \cite{scott}
 
-Oracle's HotSpot VM combines interpretation and translation. First, it interprets all code and concurrently collects information how often code is executed and additional data. After that JVM uses collected information for compilation with a high level of optimization. The more information about code JVM has, the more level of optimization it can achieved but for the price of the slow interpretation in the beginning. Actually, depending on the level of optimization there are two different compilers in HotSpot JVM -- \textbf{client} and \textbf{server}.
+Oracle's HotSpot VM combines interpretation and translation. First, it interprets all code and concurrently collects information how often code is executed and additional data. After that JVM uses collected information for compilation with a high level of optimization. The more information about code JVM has, the more level of optimization it can achieved but for the price of the slow interpretation in the beginning. Actually, depending on the aggressiveness and level of optimization there are two different compilers in HotSpot JVM -- \textbf{client} and \textbf{server} (see \ref{clientcomp} and \ref{servercomp}).
+
+The choice of which compiler to use is often the only one decision that is done during the compiler tuning. Even, choosing of compiler must be considered before JVM is installed because different JVM binaries contain different compilers. \cite{scott}
 
 Another important role of any JVM implementations is automatic memory management knowns as \textbf{Garbage collections (GC)}. There are four different algorithms (called as Garbage Collectors) that provide this task in HotSpot:
 \begin{itemize}
@@ -80,29 +81,40 @@ Another important role of any JVM implementations is automatic memory management
 	\item \textbf{concurrent (CMS) collector}
 	\item \textbf{G1 collector}
 \end{itemize}
-Every of garbage collectors has quite different performance characteristics and is suitable for different category of an application and environment. \cite{scott}
+Every of garbage collectors has quite a different performance characteristics and is suitable for a different category of an application and environment. \cite{scott}
 
+\subsection{Client compiler}\label{clientcomp}
+The HotSpot VM's client compiler is designed for faster application startup, quick compilation and smaller memory footprint. This type of compiler is typically suitable for GUI application because there is a responsiveness without jitter desired. \cite{hunt}
 
-{\color{red} Je nutné v následujících podkapitolách podrobněji rozebrat jednotlivé překladače a kolektory? Přece jen se práce zaměřuje na ladění výkonu. Na druhou stranu bez uvedení specifik pro jednotlivé kolektory nebude možné se odkazovat proč jsme například použili CMS místo parallel a naopak. Přikláněl bych se je uvést protože např. parallel GC ma za cíl co nejvyšší propustnost a CMS GC zase minimalizuje délku \textit{stop-the-world} pauzy. Pokud bychom měli metriku s nejvýznamnější váhou právě na minimalizaci \textit{stop-the-world} (předpokládám, že tato situace může nastat, protože cílová aplikace -- terminál -- obsluhuje požadavky od uživatele) bude možné říct, PROČ je CMS GC vhodnější oproti jiným kolektorům.}
-\subsection{Client compiler}
-\subsection{Server compiler}
+The name \textit{client} compiler comes from command-line argument \texttt{-client} used to select the compiler. When 64-bit version of the JDK is used, this option is ignored and \textit{server} compiler (see \ref{servercomp}) will be used. Sometimes client compiler is called \textit{compiler 1} or shortly \textit{C1}\footnote{Short notation is used in list of advanced options. See \ref{secoptions}}. \cite{scott} \cite{java}
+\subsection{Server compiler}\label{servercomp}
+The second HotSpot VM's compiler targets high throughput and peak performance. The server compiler uses the most powerful optimizations it can. Disadvantage of this behavior is a fact, that time for getting an essential information for top optimization can be long. Concurrently, the overall memory footprint of server compiler is larger due to more data to handle. Native code produced by server compiler will be definitely more effective. Therefore advantages of high optimization of code depends on a run time of an application and the server compiler is suitable for long running applications. \cite{hunt}
+
+For use the server compiler serves the \texttt{-server} option. The server compiler is also marked as \textit{compiler 2} or \textit{C2}.
+
+Technique called \textit{tiered compilation} combines a client compiler fast startup and a server compiler high optimization. With tiered compilation, code is first compiled by the client compiler, as it becomes hot, it is recompiled by the server compiler. The tiered compilation is available only for server compiler\footnote{If command \texttt{java -client -XX:+TieredCompilation}\textit{ programName} is used, \texttt{-XX:+TieredCompilation} option is quietly turned off. \cite{scott}}. The tiered compilation was introduced in the JDK 7 and it becomes as default in the JDK 8. \cite{scott}
 \subsection{Garbage collectors}
 
-\section{Setting options}
+\section{Setting options}\label{secoptions}
 There are many options how to adjust behavior JVM. For example, we may enforce to use parallel collector or set maximum heap\footnote{Heap is a memory area that JVM uses for residing the Java objects.} size. Options are divided into several categories:
 \begin{itemize}
 	\item "\textbf{Standard options} -- are guaranteed to be supported by all implementations of the Java Virtual Machine (JVM). They are used for common actions, such as checking the version of the JRE, setting the class path, enabling verbose output, and so on.
 	\item \textbf{Non-standard options} -- are general purpose options that are specific to the Java HotSpot Virtual Machine, so they are not guaranteed to be supported by all JVM implementations, and are subject to change. These options start with \texttt{-X}.
 	\item \textbf{Advanced options} -- are not recommended for casual use. These are developer options used for tuning specific areas of the Java HotSpot Virtual Machine operation that often have specific system requirements and may require privileged access to system configuration parameters. They are also not guaranteed to be supported by all JVM implementations, and are subject to change. Advanced options start with \texttt{-XX}." \cite{java}
 \end{itemize}
-For listing all standard options is used command \texttt{java -?} and non-standard options \texttt{java -X}. A situation for listing advanced options becomes little complicated because we have to make a decision which supersets of advanced option we want to list. On the other hand, diagnostic options superset is not point of interest in this thesis because these options not meant for VM tunning or for product mode. Similarly commercial features. Therefore for listing advanced options which are relevant for this thesis command \texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} was used. List of advanced options contains option name, type (e.g. bool, (u)intx, ccstr) and default value (see section \ref{erg}) and category (e.g. product, experimental).
+For listing all standard options is used the command \texttt{java -?} and non-standard options \texttt{java -X}. A situation for listing advanced options becomes little complicated because we have to make a decision which supersets of advanced option we want to list. On the other hand, diagnostic options superset is not point of interest in this thesis because these options not meant for VM tunning or for product mode. Similarly commercial features. Therefore, for listing advanced options which are relevant for this thesis command \texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} was used. List of advanced options contains option name, type (e.g. bool, (u)intx, ccstr) and default value (see section \ref{secerg}) and category (e.g. product, experimental).
 
 Generally, there are two types of advanced options: boolean options, and options that require a parameter. Boolean options use syntax: \texttt{-XX:+OptionName} enables the option, and \texttt{-XX:-OptionName} disables the option. Options with parameter use syntax: \texttt{-XX:OptionName=value}, meaning to set the value of \texttt{OptionName} to \texttt{value}. \cite{scott}
 
 
 
-\section{Java ergonomics}\label{erg}
-"Ergonomics is the process by which the Java Virtual Machine (JVM) and garbage collection tuning, such as behavior-based tuning, improve application performance. The JVM provides platform-dependent default selections for the garbage collector, heap size, and runtime compiler. These selections match the needs of different types of applications while requiring less command-line tuning. In addition, behavior-based tuning dynamically tunes the sizes of the heap to meet a specified behavior of the application." \cite{ergonomics}
+\section{Java ergonomics}\label{secerg}
+This term covers the process by which the JVM provides platform-depent default selections. It aims to reduce the number of user defined used options and mainly improve the performance of running application. In addition, behavior-based tuning dynamically tunes the sizes of the heap to achieve a smaller memory footprint and to meet a specified behavior of the application. Depending on the environment features where the JVM runs can be defined the \textit{Server-class} machine. An machine is considered the \textit{Server-class} when meets next requirements:
+\begin{itemize}
+	\item 2 or more physical processors
+	\item 2 or more GB of physical memory
+\end{itemize}
+The table \ref{figerg} shows what a compiler will be used for given platform. If JVM runs on the \textit{Server-class} machine, it uses the \textit{server} compiler with the exception of 32-bit platforms running a version of the Windows operating system.
 
 \begin{table}[]
 	\centering
@@ -115,23 +127,39 @@ Generally, there are two types of advanced options: boolean options, and options
 		AMD (64-bit)      & Linux                     & Server           & Server                           \\ \hline
 		AMD (64-bit)      & Windows                   & Server           & Server                           \\ \hline
 	\end{tabular}
-	\caption{Determination the runtime compiler for different platforms. Server-class machine has been defined as machine with two or more physical processors and two or more GB of physical memory. Taken from \cite{ergonomics}.}
-	\label{my-label}
+	\caption{Determination the runtime compiler for a different platforms. Taken from \cite{ergonomics}.}
+	\label{figerg}
 \end{table}
 
-Default values which are shown in the list produced by \texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} command are based on Java ergonomics. E.g. for server-class machine is default value for initial heap size of 1/64 of physical memory up to 1 GB and maximum heap size of 1/4 of physical memory up to 1 GB and parallel collector is set as default. \cite{ergonomics}
+Default values which are shown in the list produced by \texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} command are based on the Java ergonomics. On the \textit{Server-class} machine, following are selected by default:
+\begin{itemize}
+	\item Initial heap size of 1/64 of physical memory up to 1 GB
+	\item Maximum heap size of 1/4 of physical memory up to 1 GB
+	\item Parallel (throughput) garbage collector
+\end{itemize}
+Unless the initial and maximum heap sizes are specified on the command line, these values will be used. \cite{ergonomics}
 
 
 \chapter{Methodology of choosing important options}
-First step to tunning JVM for performance optimization is determination options which has considerable performance impact. The option set contains 815 options\footnote{The sum of 21 standard, 26 non-standard and 768 advanced (\texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} command) options for Java HotSpot\texttrademark{} 64-Bit Server VM (build 25.111-b14, mixed mode).}. In addition, it can be assumed that options without documentation, on Oracle's official sites (\cite{java}) and options which are not mentioned in a literature deals with Java performance (\cite{scott}, \cite{hunt}), are not so important.
+This chapter of thesis deals with a restriction of huge option set and determination options which has a considerable performance impact.
 
-It's possible to categorize JVM options into following groups:
+The option set contains 815 options\footnote{The sum of 21 standard, 26 non-standard and 768 advanced (\texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} command) options for Java HotSpot\texttrademark{} 64-Bit Server VM (build 25.111-b14, mixed mode).}. As described in the section \ref{secoptions}, there are several types of options in JVM\footnote{For example, advanced option set contains 383 boolean, 184 integer and 173 unsigned integer options. (Remaining option types are double, string (ccstr), etc.)}. If JVM options had only boolean type, JVM would have $2^{815}$ different settings. Testing the all options is technically possible, but practically not.
+
+
+The methodology of choosing important options is based on a study how the options influence the JVM behaviour. Firstly, a principles of execution \textit{bytecode} by JVM has been studied together with options which can adjust the execution. Based on the level influencing the JVM behaviour and availability a documentation it's possible to categorize JVM options into following groups:
 \begin{itemize}
-	\item \textbf{Big Impact} -- these options were evaluated as most important for performance impact. Some options require enabling another option and are called \textit{complex} (e.g. for use \texttt{-XX:TieredCompilation} option is necessary using \texttt{-server} option). Another options doesn't require enabling "parent" option and are called \textit{primitive}. Lists of \textit{complex} (see \ref{bigimpactcomplex}) and \textit{primitive} (see \ref{bigimpactprimitive}) options are stored in the appendix of this thesis.
-	\item \textbf{Small Impact} -- options in this group are considered having not too much big impact for performance but in the certain situations can significantly influence JVM behavior (e.g. \texttt{-XX:GCHeapFreeLimit} option).
-	\item \textbf{Not Relevant} -- essentially, there are options that don't have any influence for performance. They are particularly "printers" -- options which only print some diagnostic information (e.g. \texttt{-XX:PrintGCDateStamps}) or commercial features.
-	\item \textbf{Not Documented} -- represents the biggest set of options with no documentation (e.g. \texttt{-XX:CompactFields}).
+	\item \textbf{Big Impact}
+	\item \textbf{Small Impact}
+	\item \textbf{Not Relevant}
+	\item \textbf{Not Documented}
 \end{itemize}
+
+Some options require current use of another option -- typically garbage collectors have own specific options. For example, setting of \texttt{-XX:ConcGCThreads} option has the meaning only if a CMS or a G1 collector is used. Therefore, the first two groups of enumeration above are distributable into next two groups:
+\begin{itemize}
+	\item \textit{primitive} -- options from this set doesn't require enabling of "parent" option.
+	\item \textit{complex} -- for use some option it's necessary to enable a certain "parent" option.
+\end{itemize}
+A big disadvantage is a fact, that JVM doesn't point out this incompatibility. Hence, when a command \texttt{java -XX:+UseSerialGC -XX:ConcGCThreads=4 }\textit{programName} is launched, JVM executes \textit{programName} without taking \texttt{-XX:ConcGCThreads=4} option into account. There is least at least an option \texttt{-XX:IgnoreUnrecognizedVMOptions} (default \texttt{false}) in JVM and when it is disabled syntax and type errors are highlight. For example, command \texttt{java -XX:+UseConcMarkSweepGC -XX:ConcGCThreads=-4 }\textit{programName} end with message: "Improperly specified VM option 'ConcGCThreads=-4'".
 
 In the picture \ref{classify} there is a way how all options of JVM was splitted.
 
@@ -142,10 +170,42 @@ In the picture \ref{classify} there is a way how all options of JVM was splitted
 	\label{classify}
 \end{figure}
 
+\section{Big impact}
+These options were evaluated as most important for performance impact. The selection was based on the available Oracle's documentation (\cite{java}) and a literature dealing with the Java performance (\cite{scott}, \cite{hunt}).
+
+The big impact options, according to the previously mentioned distribution, are composed by two subsets -- the \textit{primitive} (see complete list of \textit{primitive} options in the appendix \ref{bigimpactprimitive}) and the \textit{complex} (see complete list of \textit{complex} options in the appendix \ref{bigimpactcomplex}). These options are intended for further optimization (e.g. by using any tool described in \ref{autoopt}).
+
+Among the most important \textit{primitive} options are:
+\begin{itemize}
+	\item \texttt{-client | -server} -- choice of compiler. For more information about client compiler see \ref{clientcomp} and server compiler see \ref{servercomp}.
+	\item \texttt{-d32 | -d64} -- when a 32-bit operating system is used, then it's required using a 32-bit version of the JVM. When a 64-bit operating system is used, then it's possible to choose 32-bit or 64-bit version of the JVM. The 32-bit version will be faster and have a smaller footprint\footnote{For the heaps up to 3 GB. \cite{scott}}. Because 32 bit memory references occupy smaller memory area and manipulating those references is less expensive. \cite{scott}
+	\item \texttt{-Xmixed} -- interprets all bytecode except for hot methods, which are compiled to native code. \cite{java}
+	\item \texttt{-Xcomp} -- forces compilation to native code on the first invocation of method. \cite{java}
+	\item \texttt{-Xms<size>} -- sets initial Java heap size. \cite{java}
+	\item \texttt{-Xmx<size>} -- sets maximum Java heap size \cite{java}. The JVM automatically sets the initial and maximum heap size (see \ref{secerg}). Due to an application memory requirements, values initial and maximum heap size set by the JVM can be insufficient or uselessly great and their setting is a basic memory footprint tuning.
+\end{itemize}
+complex
+-server	-XX:TieredCompilation
+-XX:UseConcMarkSweepGC -XX:ConcGCThreads
+-XX:UseParallelGC -XX:MaxGCPauseMillis(u tohohle jeste zjisti, jestli se nevaze i na jiny GC)
+
+\section{Small impact}
+The small impact set contains the JVM options that are important also. Although they don't influence a JVM behavior in general, their use could have the big impact of performance in certain cases. For example, use \texttt{-XX:OptimizeStringConcat} option should be useful when an application merges strings extensively. In the other consideration, when an optimization aims to minimize the memory footprint, the \texttt{-XX:MaxHeapFreeRatio}\footnote{"Sets the maximum allowed percentage of free heap space (0 to 100) after a GC event. If free heap space expands above this value, then the heap will be shrunk." \cite{java}} option significantly influences a success of optimization.
+Therefore, the several small impact options can be temporary moved to the big impact set to achieve better performance of given application and/or metric.
+%{\color{red} Dobry je napsat, ze nejde vybrat parametry obecne pro vsechny metriky -- tyto jsou maximalne obecne. Pokud budeme ladit compilaci, budeme muset pravdepodobne sahnout i na ty, ktere jsou nyni ve small impactu a naopak vypustit napr. max. velikost haldy, protoze tento parametr by efektivnost kompilace nemel ovlivnit. Naopak pokud budeme ladit footprint a pouzijeme nejaky z garbage kolektoru a budeme potrebovat jemneji vyladit jeho chovani, budeme muset opet sahnout po parametrech, ktere jsou ve small impact, resp. uvedeny jako komplex a pouzity kolektor je jejich parent option.}
+% -- {\color{red} popsat, ze pokud bude cil co nejmensi memory footprint, tak je dobre drzet GCHeapFreeLimit co nejnizsi, aby JVM fungoval i pokud bude heap temer plna.}options in this group are considered having not too much big impact for performance but in the certain situations can significantly influence JVM behavior (e.g. \texttt{-XX:GCHeapFreeLimit} option).
+
+\section{Not relevant}
+Essentially, there are options that don't have any influence for performance. They are particularly "printers" -- options which only print some diagnostic information (e.g. \texttt{-XX:PrintGCDateStamps}) or commercial features.
+
+\section{Not documented}
+Represents the biggest set of options with no quality documentation. As described in the beginning of this chapter, all options testing is hardly feasible. This thesis doesn't deal with it.
+
 \chapter{Tools}
 \section{Analytic tools}
 {\color{red} Popsat jconsole apod.}
-\section{Automatic optimization tools}
+\section{Automatic optimization tools}\label{autoopt}
+
 {\color{red} Popsat JATT, applicare}
 
 
@@ -198,7 +258,7 @@ In the picture \ref{classify} there is a way how all options of JVM was splitted
 	\multicolumn{1}{|l|}{-XX:UseParallelOldGC}                       &                                                             \\ \cline{1-1}
 	\multicolumn{1}{|l|}{-XX:UseSerialGC}                            &                                                             \\ \cline{1-1}
 	\end{tabular}
-	\caption{Big impact primitive option. It's possible to use any option without enabling other one.}
+	\caption{The big impact primitive options. It's possible to use any option without enabling the other one. These options subject subsequent optimization.}
 	\label{bigimpactprimitive}
 \end{table}
 		
@@ -224,7 +284,7 @@ In the picture \ref{classify} there is a way how all options of JVM was splitted
 		& -XX:UseStringDeduplication             \\ \cline{2-2} 
 		& -XX:G1MixedGCLiveThresholdPercent      \\ \hline
 	\end{tabular}
-	\caption{Big impact complex options. To use option from right column it's necessary to enable option from left column.}
+	\caption{The big impact complex options. To use the option from the right column it's necessary to enable the  option from the left column. These options subject subsequent optimization.}
 	\label{bigimpactcomplex}
 \end{table}
 
