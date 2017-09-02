@@ -215,9 +215,20 @@ Essentially, there are options that don't have any influence on performance. The
 Represents the biggest set of options with no quality documentation. As described in the beginning of this chapter, all options testing is hardly feasible. This thesis doesn't deal with it.
 
 \chapter{Tools}
+%TODO
+%Co se tyce nastroju rad bych videl prehled / analyzu existujicich nastroju:
+%- info jestli je nastroj udrzovan,
+%- jestli je open source
+%- licenci,
+%- kdy vznikl,
+%- cenu,
+%- programovaci jazyk,
+%- podporovany OS,
+%- moznosti automatizace (API),
+%- prehled zakladnich moznosti nastroju.
 \section{Analytic tools}
 \subsection{JConsole}
-A JConsole is a graphical tools that allows monitor and manage Java applications on a local or remote machine. It is contained in JDK since Java 5 because in this version JMX\footnote{Java Management Extensions, for more information visit \url{http://www.oracle.com/technetwork/articles/java/javamanagement-140525.html}} technology was introduced and JConsole is a JMX-compliant tool.\cite{jconsole}
+A JConsole is a graphical tools that allows monitor and manage Java applications on a local or remote machine. It is contained in JDK since Java 5 because in this version JMX\footnote{Java Management Extensions, for more information visit \url{http://www.oracle.com/technetwork/articles/java/javamanagement-140525.html}} technology was introduced and JConsole is a JMX-compliant tool.~\cite{jconsole}
 
 \begin{figure}[h]
 	\centering
@@ -233,10 +244,19 @@ A JATT (JVM Auto Tuning Tool) is an open source software tool which was develope
 \cite{jatt-web} \cite{jatt-web-dzone}
 
 The \textit{JATT} is an \textbf{offline} tuning tool -- it means a tuning phase and a production phase are strictly separated. Firstly, an optimal parameter configuration that will produce best performance within specified deployment environment. Secondly, found optimal configuration is used to deploy the application. There is an opposite approach called \textbf{online} tuning which deals with finding an optimal configuration during the runtime of an application. The \textit{JATT} does not offer an online auto tuning of JVM now but it is in development. 
-% TODO napsat autorum, jestli budou ve vyvoji pokracovat a podle toho dopsat
+% TODO napsat autorum, jestli je nastroj aktualne spravovany a jestli budou ve vyvoji pokracovat a podle toho dopsat
 An initial phase of development indicates use of a \textit{jstat} utility\footnote{For more informations see sites \url{https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr017.html} and \url{https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jstat.html} for use.}. \cite{jatt}
 
-Already stated tool is written in Python programming language\footnote{Official repository is located at \url{https://bitbucket.org/sapients/hotspottuner/}} and except for the OpenTuner it requires another packages. For a comprehensive information about requirements, installation and use see website \cite{jatt-web-medium}. There is shown simple example to auto tune 
+Already stated tool is written in Python programming language\footnote{Official repository is located at \url{https://bitbucket.org/sapients/hotspottuner/}} and except for the OpenTuner it requires other packages. For a comprehensive information about requirements, installation and use see website \cite{jatt-web-medium}. There is shown a simple example of the Java application auto tuning and performance results are briefly discussed.
+
+For 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm]{fig/flags.pdf}
+	\caption{A JDK 8 JConsole tool main window. It shows use of resources, another tabs contain more detailed information and a facility to manage object called a MBeans.}
+	\label{jatt-flags}
+\end{figure}
+
 
 
 
