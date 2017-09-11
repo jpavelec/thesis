@@ -14,6 +14,7 @@
 \usepackage{multirow}
 \usepackage{seqsplit}
 
+
 %% The following section sets up the locales used in the thesis.
 %\usepackage[resetfonts]{cmap} %% We need to load the T2A font encoding
 %\usepackage[T1,T2A]{fontenc}  %% to use the Cyrillic fonts with Russian texts.
@@ -95,6 +96,7 @@ The second HotSpot VM's compiler targets high throughput and peak performance. T
 The \texttt{-server} option serves fo use the server compiler. The server compiler is also marked as \textit{compiler 2} or \textit{C2}.
 
 A technique called \textit{tiered compilation} combines a client compiler fast startup and a server compiler high optimization. With the tiered compilation, the code is first compiled by the client compiler, as it becomes hot, it is recompiled by the server compiler. The tiered compilation is available only for server compiler\footnote{If command \texttt{java -client -XX:+TieredCompilation}\textit{ programName} is used, \texttt{-XX:+TieredCompilation} option is quietly turned off. \cite{scott}}. The tiered compilation was introduced in the JDK 7 and it becomes as default in the JDK 8. \cite{scott}
+\subsection{Generations}
 \subsection{Garbage collectors}
 
 \section{Setting options}\label{secoptions}
@@ -228,6 +230,7 @@ Represents the biggest set of options with no quality documentation. As describe
 %- prehled zakladnich moznosti nastroju.
 \section{Analytic tools}
 \subsection{JConsole}
+%TODO dopsat jeste 2 odstavce
 A JConsole is a graphical tools that allows monitor and manage Java applications on a local or remote machine. It is contained in JDK since Java 5 because in this version JMX\footnote{Java Management Extensions, for more information visit \url{http://www.oracle.com/technetwork/articles/java/javamanagement-140525.html}} technology was introduced and JConsole is a JMX-compliant tool.~\cite{jconsole}
 
 \begin{figure}[h]
@@ -237,11 +240,34 @@ A JConsole is a graphical tools that allows monitor and manage Java applications
 	\label{jconsole}
 \end{figure}
 
+%TODO GCViewer na analyzu GC logu
+\subsection{GC Viewer}
+GC Viewer is a tool for analysis GC logs. Firstly, you have to run a JVM with options \texttt{-Xloggc:}\textit{logFile} \texttt{\seqsplit{-XX:+PrintGCDetails -XX:+PrintGCDateStamps}}, where \textit{logFile} is a file where GC events will be stored. Secondly, open the \textit{logFile} in the GC Viewer to assessment of effectiveness GC operations, memory footprint, heap usage, throughput and so on. Therefore GC Viewer is an offline tool.
+This tool is completely written in Java language. Tagtraum industries\footnote{http://www.tagtraum.com/gcviewer.html} developed GC Viewer till 2008. Since this time it's open source project\footnote{Official repository is accessible at \url{https://github.com/chewiebug/GCViewer}} under GNU Lesser General Public License.\cite{gcviewer} The GC Viewer is being updated. All support JVMs are in table \ref{gcviewersupportsjvms}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm]{fig/gcviewer.png}
+	\caption{A GC Viewer GUI. This tool is can be used to detailed analysis of GC logs.}
+	\label{gcviwer}
+\end{figure}
+
+%TODO urcite nechat bezet delsi dobu nejakou narocnejsi aplikaci a dat screen s grafem
+
+
+
+
+
 \section{Automatic optimization tools}\label{autoopt}
+
+%TODO registruj se na https://www.dynatrace.com/trial/?vehicle_name=https://www.dynatrace.com/technologies/java-monitoring/ pro vyzkouseni dynatrace a pripadne s nim muzes pak neco zmerit a optimalizovat a zahrnout do prace.
 
 \subsection{JATT}
 A JATT (JVM Auto Tuning Tool) is an open source software tool which was developed to optimize JVM. The JATT is based on the OpenTuner\footnote{"OpenTuner is a new framework for building domain-specific multi-objective program autotuners. OpenTuner supports fully customizable configuration representations, an extensible technique representation to allow for domain-specific techniques, and an easy to use interface for communicating with the tuned program." \url{http://opentuner.org/}} framework and it supports only the Linux environment. Aforementioned tool offers the Console mode and the Graphical User Interface as well. Authors highly recommend to use the console mode for more advanced work. The JATT is designed to tune especially HotSpot JVM (namely, it was tested on OpenJDK 7 update 55) but it can be modified to auto tune a different JVM.
 \cite{jatt-web} \cite{jatt-web-dzone}
+%TODO sel by trochu doplnit OpenTuner -- algoritmy, techniky hledani apod. podle http://groups.csail.mit.edu/commit/papers/2014/ansel-pact14-opentuner.pdf
+%QT doplnit tuner
+%QT Java 9, porovnat? Je modularni, coz by mohlo mit na performance. Koukni na https://docs.oracle.com/javase/9/whatsnew/toc.htm a tuning. Nektere options byly zakazany. G1 je defaultni GC,... Java 9 by take mela mit lepsi "self-tuning" (wikipedia).
 
 The \textit{JATT} is an \textbf{offline} tuning tool -- it means a tuning phase and a production phase are strictly separated. Firstly, an optimal parameter configuration that will produce best performance within specified deployment environment. Secondly, found optimal configuration is used to deploy the application. There is an opposite approach called \textbf{online} tuning which deals with finding an optimal configuration during the runtime of an application. The \textit{JATT} does not offer an online auto tuning of JVM now but it is in development. 
 % TODO napsat autorum, jestli je nastroj aktualne spravovany a jestli budou ve vyvoji pokracovat a podle toho dopsat
@@ -249,35 +275,118 @@ An initial phase of development indicates use of a \textit{jstat} utility\footno
 
 Already stated tool is written in Python programming language\footnote{Official repository is located at \url{https://bitbucket.org/sapients/hotspottuner/}} and except for the OpenTuner it requires other packages. For a comprehensive information about requirements, installation and use see website \cite{jatt-web-medium}. There is shown a simple example of the Java application auto tuning and performance results are briefly discussed.
 
-For 
+For logical division the JATT divides options into ten groups. We are able to auto tune JVM according to every group of our interest. Alongside this a searching space and a tuning time are reduced. We can easily use two or more groups at the same time or define own set of options to auto tune. All options are stored in \texttt{Flags} folder in \texttt{csv} files, including \texttt{Temporary} file which is predestined to input own list of options which the JATT will use to auto tune a JVM.
+
+The JATT is student project which originated in 2012 at the University of Moratuwa, Sri Lanka. Project won the gold medal award at Association for Computing Machinery (ACM) student research competition attached to 2015 International Symposium on Code Generation and Optimization. \cite{jatt-web}
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=13cm]{fig/flags.pdf}
-	\caption{A JDK 8 JConsole tool main window. It shows use of resources, another tabs contain more detailed information and a facility to manage object called a MBeans.}
-	\label{jatt-flags}
+	\caption{A JVM options hierarchy. The JATT divides JVM options into several groups. The division aims to reduce a searching space. But it's possible to use two or more groups together also. \cite{jatt-progress} \cite{jatt-web-medium}}
+	\label{jatt-hierarchy}
 \end{figure}
 
+To start auto tuning Java application, find \texttt{JATTHotspotTuner} folder and type command in terminal: \newline \texttt{python src/javaProgramTuner.py -\--source=}\textit{application} \texttt{\seqsplit{\  -\--iterations=}}\textit{numberOfIterations} \texttt{\ -\--flags=}\textit{optionCategory} \texttt{\ -\--configfile=}\textit{\seqsplit{fileWithResults}} \newline
+
+Parameters of command are:
+\begin{itemize}
+	\item \textit{application} -- Java application to auto tune (a \texttt{*.class} file)
+	\item \textit{numberOfIterations} -- measured runtime is average of \textit{numberOfIterations} runs
+	\item \textit{optionCategory} -- you can use one or more categories which are separated by commas (see picture \ref{jatt-hierarchy})
+	\item \textit{fileWithResults} -- a text file will be stored in \texttt{src/TunedConfiguration} folder with found configurations. If you more times run command with same \textit{fileWithResults} data will not be overwritten while new records will be added. A result entry syntax is shown in figure \ref{jatt-result}
+\end{itemize}
+
+In figure \ref{jatt-result} is an example of \textit{fileWithResults} file. There is group(s) options configuration on the first line used to achieve given runtime. The \texttt{Improvement} represents ratio of improvements which is given by equation: $Improvement = Default\ metric / Runtime$ \cite{jatt-web-dzone}, where \texttt{Default metric} is the application runtime without changed JVM options. Result file ordinarily contains increasing entry sequence by improvement factor including a header with information about used option group(s) and tuning start time.
+%TODO jvmtunerInterface.py je api ktere jde rozsirit, napr. javaProgramTuner.py, dacapoTuner.py, lze napsat i vlastni, pokud treba nebude aplikace mit jako vystup casovou jednotku, ktera je treba snizovat)
+\begin{figure}[h]
+	\flushleft{
+	\texttt{\seqsplit{-XX:+Inline\ -XX:+ClipInlining\ -XX:+UseTypeProfile\ ...\ -XX:AutoBoxCacheMax=120\ -XX:EliminateAllocationArraySizeLimit=56\ -XX:ValueSearchLimit=1058\ ...}}
+	\newline \texttt{Improvement: 1.05022358536}
+	\newline \texttt{Runtime 0.114877080917}
+	\newline \texttt{Default metric 0.120646619797}
+	\newline \texttt{Configuration Found At: 2017-08-12 20:11:17.910694}}
+	\caption{An example of the JATT result entry. An option configurations of group(s) (shorted here) and improvement factor are the most important information.}
+	\label{jatt-result}
+\end{figure}
+
+%TODO
+%Co se tyce nastroju rad bych videl prehled / analyzu existujicich nastroju:
+%- info jestli je nastroj udrzovan,
+%- jestli je open source
+%- licenci,
+%- kdy vznikl,
+%- cenu,
+%- programovaci jazyk,
+%- podporovany OS,
+%- moznosti automatizace (API),
+%- prehled zakladnich moznosti nastroju.
+\subsection{ParamILS}
+Philipp Lengauer and Hanspeter Mössenböck deal with automatic parameter tuning for Java Garbage Collectors \cite{jvmtuner}. They introduced a tool extensively based on ParamILS framework for JVM tuning, primarily for improving GC operations in 2014. The tool is practically short bash script which launch ParamILS with parameter model -- options for tuning divided by Garbage collector algorithms in ParamILS-specic syntax. Own tool is under the GNU General Public License and the ParamILS software is owned by Meta-Algorithmic Technologies Inc. and permission is hereby granted for non-commercial use\footnote{For commercial use contact Chris Fawcett, chris.fawcett@gmail.com}. \cite{jvmtuner} \cite{paramils} The ParamILS is a collection of easy readable Ruby scripts and both tools support Windows and Linux operating systems\footnote{\url{http://www.cs.ubc.ca/labs/beta/Projects/ParamILS/ParamILS-Quickstart.pdf}}. 
 
 
+%TODO spoluprace s Dynatrace, popsat techniky jaho hill-climbing a dalsi, ktere ParamILS vyuziva
 
 
+\subsection{Commercial tools}
+%TODO applicare, dynatrace, plumbr(?)
+Among important non-freely accessible tools belong:
+\begin{itemize}
+	\item Arcturus Applicare\footnote{\url{http://www.arcturustech.com/tunewizard.html}} -- comprehensive tool for automated performance tuning, intelligent monitoring, optimization and instant root cause analysis. Applicable for great systems such web applications.
+	\item Dynatrace -- this company is a leader for application performance monitoring and tuning for Java and .NET applications. Dynatrace collaborates with Philipp Lengauer and Hanspeter Mössenböck on JVM tuning. \cite{jvmtuner-boost}
+	\item Plumbr\footnote{\url{https://plumbr.eu/}}
+\end{itemize}
 
 
-{\color{red} Popsat JATT, applicare}
-
+%TODO nezapomen porovnat tyto dva nastroje
 
 %{\color{red} In many cases, though, remember that the JVM is a small part of the overall performance picture. \cite{scott} p. 10}
 
-%{\color{red} One particularly important case of testing a full application occurs when multiple applications are run at the same time on the same hardware. Many aspects of the JVM are	tuned by default to assume that all machine resources are available to them, and if those JVMs are tested in isolation, they will behave well. If they are tested when other applications are present (including, but not limited to, other JVMs), their performance will be quite different. \cite{scott} p. 18}
+
 
 % Dotazy
 % Bezi cilova aplikace izolovane nebo jsou tam i dalsi java aplikace?
 
-%JVM je zasobnikovy pocitac
-%Ergonomics - Automatic Selections and behaviour tuning 
+\chapter{Optimization JVM}
 
-%Java Flight Recorder
-%Moznosti analyzy vykonu - vmstat jconsole, prepinace -XX:PrintGCDetails/-XX:PrintGCTimeStamps
+\section{Application}
+%TODO popsat dacapo benchmark
+The DaCapo benchmark suite version 9.12 was chosen for the primal experimentation with JVM tuning. This suite includes these benchmarks: \cite{DaCapo:paper}
+\begin{itemize}
+	\item \textbf{antlr} -- A parser generator and translator generator
+	\item \textbf{bloat} -- A bytecode-level optimization and analysis tool for Java
+	\item \textbf{chart} -- A graph plotting toolkit and pdf renderer
+	\item \textbf{eclipse} -- An integrated development environment (IDE)
+	\item \textbf{fop} -- An output-independent print formatter
+	\item \textbf{hsqldb} -- An SQL relational database engine written in Java
+	\item \textbf{jython} -- A python interpreter written in Java
+	\item \textbf{luindex} -- A text indexing tool
+	\item \textbf{lusearch} -- A text search tool
+	\item \textbf{pmd} -- A source code analyzer for Java
+	\item \textbf{xalan} -- An XSLT processor for transforming XML documents
+\end{itemize}
+\section{Measurement methodology}
+A machine with these parameters was used for measurement:
+\begin{itemize}
+	\item CPU -- Intel\textregistered\ Core\texttrademark\ i5-2450M, 2 cores, 4 threads
+	\item Memory -- 8 GB
+	\item Operating system -- Ubuntu 16.04, kernel Linux 4.10.0-33-generic (x86\_64)
+\end{itemize}
+
+Firstly, 10 runs of \textit{xalan} benchmark without warm-up period were realized. Measured values are in table \ref{default}. Secondly, an auto tuning tool was used to gain JVM options. Thirdly, 10 runs of \textit{xalan} benchmark were realized again to observe performance changes.
+
+%TODO dat tam taky mnou vybrane parametry z bigimpactu a provest mereni - temporary na xalanu
+%TODO One particularly important case of testing a full application occurs when multiple applications are run at the same time on the same hardware. Many aspects of the JVM are	tuned by default to assume that all machine resources are available to them, and if those JVMs are tested in isolation, they will behave well. If they are tested when other applications are present (including, but not limited to, other JVMs), their performance will be quite different. \cite{scott} p. 18}
+\section{JATT}
+The JATT provides an interface to auto tune DaCapo benchmark. A command \texttt{\seqsplit{python\ src/dacapoTuner.py\ --source=xalan\ --iterations=1\ --flags=gc\ --configfile=dacapo\_results}} starts finding better JVM options settings with respect to GC operations. Searching took approximately an hour and result configuration is in figure \ref{jatttunedgcoptions}. \textit{Xalan} benchmark was performed with found JVM settings and measured values are in table \ref{jattgcresults}.
+
+Average optimized runtime was 10415 milliseconds what in comparison to default value 11385 milliseconds is improvement by more than 8 \%. Accumulated GC pause is shorter more than four times. To the contrary, there is huge increase in memory footprint -- from original 128 MB to 742 MB. After detailed exploration logs in GC Viewer is apparent that only one GC event occurred.
+
+A reduction runtime by 8 \% is significant together without any code adjustment. But memory consumption could be problematic, especially when a Java application runs on a machine with limited memory.
+
+With the goal of reducing memory footprint another JATT flag was used -- namely \textit{memory} flag. Memory footprint has been reduced from original 128 MB to 37 MB with runtime improvement by 6 \%. In comparison to previous optimized JVM settings, there is runtime increase by approximately 2.5 \%.  Complete results are in table \ref{jattmemoryresults} and found options are in figure \ref{jatttunedmemoryoptions}.
+
+\section{ParamILS}
+\section{Comparison}
 
 
 
@@ -351,6 +460,100 @@ For
 	\caption{The big impact complex options. To use the option from the right column it's necessary to enable the  option from the left column. These options subject subsequent optimization.}
 	\label{bigimpactcomplex}
 \end{table}		
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|}
+		\hline
+		preliminary support for OpenJDK 9 Shenandoah algorithm in unified \\ logging format \texttt{-Xlog:gc: -XX:+UseShenandoahGC  }   \\ \hline
+		Oracle JDK 1.8 \texttt{-Xloggc: {[}-XX:+PrintGCDetails{]} {[}-XX:+PrintGCDateStamps{]}}                                      \\ \hline
+		Sun / Oracle JDK 1.7 with option\\ \texttt{-Xloggc:} \texttt{{[}-XX:+PrintGCDetails{]} {[}-XX:+PrintGCDateStamps{]}}                    \\ \hline
+		Sun / Oracle JDK 1.6 with option\\ \texttt{-Xloggc:} \texttt{{[}-XX:+PrintGCDetails{]} {[}-XX:+PrintGCDateStamps{]}}                    \\ \hline
+		Sun JDK 1.4/1.5 with the option \texttt{-Xloggc: {[}-XX:+PrintGCDetails{]}}                                                  \\ \hline
+		Sun JDK 1.2.2/1.3.1/1.4 with the option \texttt{-verbose:gc}                                                                 \\ \hline
+		IBM JDK 1.3.1/1.3.0/1.2.2 with the option \texttt{-verbose:gc}                                                               \\ \hline
+		IBM iSeries Classic JVM 1.4.2 with option \texttt{-verbose:gc}                                                               \\ \hline
+		HP-UX JDK 1.2/1.3/1.4.x with the option \texttt{-Xverbosegc}                                                                 \\ \hline
+		BEA JRockit 1.4.2/1.5/1.6 with the option \\\texttt{-verbose:memory {[}-Xverbose:gcpause,gcreport{]} {[}-Xverbosetimestamp{]}} \\ \hline
+	\end{tabular}
+	\caption{GC Viewer supports JVMs list. \url{https://github.com/chewiebug/GCViewer}}
+	\label{gcviewersupportsjvms}
+\end{table}
+
+\begin{table}[]
+	\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+	\hline
+	Run              & \begin{tabular}[c]{@{}c@{}}Runtime\\ {[}msec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Memory\\ Footprint \\ {[}MB{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Accumul.\\ Pauses \\ {[}sec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Full GC\\ Perf.\\ {[}MB/s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}GC\\ Perf.\\ {[}MB/s{]}\end{tabular} \\ \hline
+	1                & 10716                                                        & 119                                                                    & 0.08                                                                   & 28.3                                                                 & 13937.1                                                         \\ \hline
+	2                & 11100                                                        & 119                                                                    & 0.1                                                                    & 15.2                                                                 & 11384.2                                                         \\ \hline
+	3                & 11882                                                        & 135                                                                    & 0.1                                                                    & 16.4                                                                 & 10167.9                                                         \\ \hline
+	4                & 11268                                                        & 119                                                                    & 0.09                                                                   & 24.3                                                                 & 12406.4                                                         \\ \hline
+	5                & 11513                                                        & 119                                                                    & 0.11                                                                   & 23.3                                                                 & 8924.2                                                          \\ \hline
+	6                & 11539                                                        & 162.5                                                                  & 0.09                                                                   & 15.3                                                                 & 11932.2                                                         \\ \hline
+	7                & 11163                                                        & 119                                                                    & 0.09                                                                   & 23.5                                                                 & 11662.3                                                         \\ \hline
+	8                & 12043                                                        & 120                                                                    & 0.12                                                                   & 21.8                                                                 & 8300.6                                                          \\ \hline
+	9                & 11325                                                        & 119                                                                    & 0.08                                                                   & 24                                                                   & 12755                                                           \\ \hline
+	10               & 11300                                                        & 147                                                                    & 0.08                                                                   & 12.9                                                                 & 13569.9                                                         \\ \hline
+	\textbf{Average} & \textbf{11385}                                               & \textbf{127.85}                                                        & \textbf{0.094}                                                         & \textbf{20.5}                                                        & \textbf{11503.98}                                               \\ \hline
+\end{tabular}
+	\caption{\textit{Xalan} benchmark runs in the default settings of the JVM.}
+	\label{default}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Run              & \begin{tabular}[c]{@{}c@{}}Runtime\\ {[}msec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Memory\\ Footprint \\ {[}MB{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Accumul.\\ Pauses \\ {[}sec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Full GC\\ Perf.\\ {[}MB/s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}GC\\ Perf.\\ {[}MB/s{]}\end{tabular} \\ \hline
+		1                & 10397                                                        & 741.8                                                                  & 0.02                                                                   & 7857.2                                                               & 130215.7                                                        \\ \hline
+		2                & 10633                                                        & 741.8                                                                  & 0.02                                                                   & 5357.2                                                               & 135230.5                                                        \\ \hline
+		3                & 10249                                                        & 741.8                                                                  & 0.02                                                                   & 7933.9                                                               & 141060.9                                                        \\ \hline
+		4                & 10521                                                        & 741.8                                                                  & 0.02                                                                   & 6213                                                                 & 120291.4                                                        \\ \hline
+		5                & 10212                                                        & 741.8                                                                  & 0.02                                                                   & 6718.6                                                               & 88053.9                                                         \\ \hline
+		6                & 10448                                                        & 741.8                                                                  & 0.02                                                                   & 5970.8                                                               & 97636.3                                                         \\ \hline
+		7                & 10421                                                        & 741.8                                                                  & 0.02                                                                   & 7614.7                                                               & 131317.1                                                        \\ \hline
+		8                & 10385                                                        & 741.8                                                                  & 0.02                                                                   & 6431.9                                                               & 98775.7                                                         \\ \hline
+		9                & 10385                                                        & 741.8                                                                  & 0.03                                                                   & 8095.7                                                               & 39761.2                                                         \\ \hline
+		10               & 10497                                                        & 741.8                                                                  & 0.02                                                                   & 5864.4                                                               & 109633.8                                                        \\ \hline
+		\textbf{Average} & \textbf{10415}                                               & \textbf{741.8}                                                         & \textbf{0.021}                                                         & \textbf{6805.74}                                                     & \textbf{109197.65}                                              \\ \hline
+	\end{tabular}
+	\caption{\textit{Xalan} benchmark runs with settings found by JATT with \textit{gc} flag. Used settings is in a figure \ref{jatttunedgcoptions}}
+	\label{jattgcresults}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Run              & \begin{tabular}[c]{@{}c@{}}Runtime\\ {[}msec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Memory\\ Footprint \\ {[}MB{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Accumul.\\ Pauses \\ {[}sec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Full GC\\ Perf.\\ {[}MB/s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}GC\\ Perf.\\ {[}MB/s{]}\end{tabular} \\ \hline
+		1                & 11203                                                        & 36.7                                                                   & 0.09                                                                   & 16.7                                                                 & 12548                                                           \\ \hline
+		2                & 10571                                                        & 36.6                                                                   & 0.09                                                                   & 17.8                                                                 & 12601.3                                                         \\ \hline
+		3                & 10627                                                        & 36.8                                                                   & 0.09                                                                   & 12.6                                                                 & 13282.9                                                         \\ \hline
+		4                & 10379                                                        & 36.7                                                                   & 0.09                                                                   & 13.2                                                                 & 12.682                                                          \\ \hline
+		5                & 10602                                                        & 36.7                                                                   & 0.08                                                                   & 24.4                                                                 & 14580.6                                                         \\ \hline
+		6                & 10559                                                        & 36.7                                                                   & 0.09                                                                   & 14.5                                                                 & 12622.3                                                         \\ \hline
+		7                & 10718                                                        & 36.6                                                                   & 0.08                                                                   & 23.6                                                                 & 13130.1                                                         \\ \hline
+		8                & 11026                                                        & 36.8                                                                   & 0.09                                                                   & 18.9                                                                 & 12101.7                                                         \\ \hline
+		9                & 10494                                                        & 36.7                                                                   & 0.09                                                                   & 24.1                                                                 & 11375.6                                                         \\ \hline
+		10               & 10525                                                        & 36.7                                                                   & 0.09                                                                   & 19.1                                                                 & 11919.8                                                         \\ \hline
+		\textbf{Average} & \textbf{10670}                                               & \textbf{36.7}                                                          & \textbf{0.088}                                                         & \textbf{18.49}                                                       & \textbf{11417.4982}                                             \\ \hline
+	\end{tabular}
+	\caption{\textit{Xalan} benchmark runs with settings found by JATT with \textit{memory} flag. Used settings is in a figure \ref{jatttunedmemoryoptions}}
+	\label{jattmemoryresults}
+\end{table}
+
+\begin{figure}[h]
+	\texttt{\seqsplit{-XX:+UseParNewGC\ -XX:+ParGCUseLocalOverflow\ -XX:-ParGCTrimOverflow\ -XX:-CMSParallelRemarkEnabled\ -XX:-CMSParallelSurvivorRemarkEnabled\ -XX:-CMSPLABRecordAlways\ -XX:+CMSConcurrentMTEnabled\ -XX:ParGCArrayScanChunk=66\ -XX:ParGCDesiredObjsFromOverflowList=25\ -XX:CMSYoungGenPerWorker=83001713\ -XX:-UseConcMarkSweepGC\ -XX:+ResizePLAB\ -XX:+ResizeOldPLAB\ -XX:+AlwaysPreTouch\ -XX:+ParallelRefProcEnabled\ -XX:+ParallelRefProcBalancingEnabled\ -XX:+UseTLAB\ -XX:+ResizeTLAB\ -XX:-ZeroTLAB\ -XX:-FastTLABRefill\ -XX:+NeverActAsServerClassMachine\ -XX:+AlwaysActAsServerClassMachine\ -XX:-UseAutoGCSelectPolicy\ -XX:-UseAdaptiveSizePolicy\ -XX:-UsePSAdaptiveSurvivorSizePolicy\ -XX:-UseAdaptiveGenerationSizePolicyAtMinorCollection\ -XX:+UseAdaptiveGenerationSizePolicyAtMajorCollection\ -XX:+UseAdaptiveSizePolicyWithSystemGC\ -XX:-UseAdaptiveGCBoundary\ -XX:-UseAdaptiveSizePolicyFootprintGoal\ -XX:-UseAdaptiveSizeDecayMajorGCCost\ -XX:+UseGCOverheadLimit\ -XX:-DisableExplicitGC\ -XX:+CollectGen0First\ -XX:-BindGCTaskThreadsToCPUs\ -XX:-UseGCTaskAffinity\ -XX:YoungPLABSize=5237\ -XX:OldPLABSize=836\ -XX:GCTaskTimeStampEntries=263\ -XX:TargetPLABWastePct=10\ -XX:PLABWeight=37\ -XX:OldPLABWeight=50\ -XX:MarkStackSize=4875124\ -XX:MarkStackSizeMax=370523639\ -XX:RefDiscoveryPolicy=0\ -XX:InitiatingHeapOccupancyPercent=27\ -XX:MaxRAM=200187289457\ -XX:ErgoHeapSizeLimit=0\ -XX:MaxRAMFraction=2\ -XX:DefaultMaxRAMFraction=6\ -XX:MinRAMFraction=3\ -XX:InitialRAMFraction=69\ -XX:AutoGCSelectPauseMillis=7432\ -XX:AdaptiveSizeThroughPutPolicy=0\ -XX:AdaptiveSizePausePolicy=0\ -XX:AdaptiveSizePolicyInitializingSteps=18\ -XX:AdaptiveSizePolicyOutputInterval=0\ -XX:AdaptiveSizePolicyWeight=15\ -XX:AdaptiveTimeWeight=25\ -XX:PausePadding=0\ -XX:PromotedPadding=3\ -XX:SurvivorPadding=1\ -XX:ThresholdTolerance=10\ -XX:AdaptiveSizePolicyCollectionCostMargin=30\ -XX:YoungGenerationSizeIncrement=28\ -XX:YoungGenerationSizeSupplement=79\ -XX:YoungGenerationSizeSupplementDecay=6\ -XX:TenuredGenerationSizeIncrement=28\ -XX:TenuredGenerationSizeSupplement=43\ -XX:TenuredGenerationSizeSupplementDecay=3\ -XX:MaxGCPauseMillis=16793486230599948288\ -XX:GCPauseIntervalMillis=0\ -XX:MaxGCMinorPauseMillis=12369914655517609984\ -XX:GCTimeRatio=145\ -XX:AdaptiveSizeDecrementScaleFactor=4\ -XX:AdaptiveSizeMajorGCDecayTimeScale=14\ -XX:MinSurvivorRatio=2\ -XX:InitialSurvivorRatio=4\ -XX:BaseFootPrintEstimate=391267844\ -XX:GCHeapFreeLimit=3\ -XX:PrefetchCopyIntervalInBytes=766\ -XX:PrefetchScanIntervalInBytes=534\ -XX:PrefetchFieldsAhead=1\ -XX:ProcessDistributionStride=5}}
+	\label{jatttunedgcoptions}
+	\caption{JVM options for \textit{xalan} benchmark found by JATT with \textit{gc} flag.}
+\end{figure}
+
+\begin{figure}[h]
+	\texttt{\seqsplit{-XX:-UseSharedSpaces\ -XX:+RequireSharedSpaces\ -XX:-DumpSharedSpaces\ -XX:+RelaxAccessControlCheck\ -XX:+UseVMInterruptibleIO\ -XX:ThreadSafetyMargin=72943233\ -XX:StackYellowPages=2\ -XX:StackShadowPages=25\ -XX:ThreadStackSize=1328\ -XX:VMThreadStackSize=1304\ -XX:CompilerThreadStackSize=0\ -XX:SharedReadWriteSize=16288215\ -XX:SharedReadOnlySize=10350874\ -XX:SharedMiscDataSize=5788599\ -XX:SharedMiscCodeSize=77206}}
+	\label{jatttunedmemoryoptions}
+	\caption{JVM options for \textit{xalan} benchmark found by JATT with \textit{memory} flag.}
+\end{figure}
 
 
 \end{document}
