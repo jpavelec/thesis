@@ -1,0 +1,134 @@
+JVM Hostspot Configuration file for benchmark xalan
+Tuner started on = 2017-09-11 07:05:39.194672
+Tuning Flags : temporary
+Default Configuration Metric:10768.0
+ -XX:-BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:-DoEscapeAnalysis -XX:+Inline -XX:-UseBiasedLocking -XX:+UseGCOverheadLimit -XX:+UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=1 -XX:CompileThreshold=14521 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=9 -XX:MaxGCPauseMillis=17135616720970764359 -XX:MaxMetaspaceSize=23990693806206148608 -XX:MaxNewSize=608034182 -XX:MaxTenuringThreshold=20 -XX:MetaspaceSize=17314462 -XX:NewRatio=3 -XX:NewSize=35672090 -XX:SoftRefLRUPolicyMSPerMB=764 -XX:SurvivorRatio=11 -XX:ThreadStackSize=537
+Improvement: 0.0010768
+Runtime 10000000.0
+default_metric 10768.0
+Configuration Found At: 2017-09-11 07:05:52.721257
+    
+ -XX:-BackgroundCompilation -XX:+CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:+Inline -XX:+UseBiasedLocking -XX:+UseGCOverheadLimit -XX:+UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=10632 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=7 -XX:MaxGCPauseMillis=17502557128984566717 -XX:MaxMetaspaceSize=16091972911780496830 -XX:MaxNewSize=424182688 -XX:MaxTenuringThreshold=11 -XX:MetaspaceSize=13580941 -XX:NewRatio=1 -XX:NewSize=37560366 -XX:SoftRefLRUPolicyMSPerMB=531 -XX:SurvivorRatio=10 -XX:ThreadStackSize=852
+Improvement: 0.97962154294
+Runtime 10992.0
+default_metric 10768.0
+Configuration Found At: 2017-09-11 07:06:05.492574
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:-DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:-UseGCOverheadLimit -XX:-UseParallelOldGC -XX:+UseSerialGC -XX:CICompilerCount=3 -XX:CompileThreshold=6002 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=6 -XX:MaxGCPauseMillis=9427573048103067648 -XX:MaxMetaspaceSize=12641309850302958616 -XX:MaxNewSize=338711338 -XX:MaxTenuringThreshold=8 -XX:MetaspaceSize=25347026 -XX:NewRatio=2 -XX:NewSize=22620596 -XX:SoftRefLRUPolicyMSPerMB=1122 -XX:SurvivorRatio=10 -XX:ThreadStackSize=1178
+Improvement: 1.07059057467
+Runtime 10058.0
+default_metric 10768.0
+Configuration Found At: 2017-09-11 07:06:16.400362
+    
+JVM Hostspot Configuration file for benchmark xalan
+Tuner started on = 2017-09-11 07:07:08.318963
+Tuning Flags : temporary
+Default Configuration Metric:18130.0
+ -XX:-BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:+Inline -XX:+UseBiasedLocking -XX:-UseGCOverheadLimit -XX:+UseParallelOldGC -XX:+UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=11496 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=4 -XX:MaxGCPauseMillis=9985037706236518400 -XX:MaxMetaspaceSize=22086570554858761345 -XX:MaxNewSize=730559147 -XX:MaxTenuringThreshold=11 -XX:MetaspaceSize=25786937 -XX:NewRatio=1 -XX:NewSize=58844316 -XX:SoftRefLRUPolicyMSPerMB=633 -XX:SurvivorRatio=10 -XX:ThreadStackSize=622
+Improvement: 0.001813
+Runtime 10000000.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:07:28.421200
+    
+ -XX:-BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:-UseBiasedLocking -XX:-UseGCOverheadLimit -XX:+UseParallelOldGC -XX:+UseSerialGC -XX:CICompilerCount=3 -XX:CompileThreshold=5278 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=9 -XX:MaxGCPauseMillis=20673953388817710786 -XX:MaxMetaspaceSize=19164560588317299747 -XX:MaxNewSize=784875925 -XX:MaxTenuringThreshold=17 -XX:MetaspaceSize=15428798 -XX:NewRatio=3 -XX:NewSize=52643510 -XX:SoftRefLRUPolicyMSPerMB=1423 -XX:SurvivorRatio=11 -XX:ThreadStackSize=1525
+Improvement: 0.001813
+Runtime 10000000.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:07:28.453146
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:+Inline -XX:+UseBiasedLocking -XX:+UseGCOverheadLimit -XX:+UseParallelOldGC -XX:+UseSerialGC -XX:CICompilerCount=1 -XX:CompileThreshold=11218 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=7 -XX:MaxGCPauseMillis=10955853035099791360 -XX:MaxMetaspaceSize=13043483408423506514 -XX:MaxNewSize=666240228 -XX:MaxTenuringThreshold=8 -XX:MetaspaceSize=11600396 -XX:NewRatio=2 -XX:NewSize=29960801 -XX:SoftRefLRUPolicyMSPerMB=747 -XX:SurvivorRatio=8 -XX:ThreadStackSize=654
+Improvement: 0.001813
+Runtime 10000000.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:07:28.481406
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:+UseGCOverheadLimit -XX:+UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=11861 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=14672710485633195336 -XX:MaxMetaspaceSize=16575176330972118754 -XX:MaxNewSize=641256006 -XX:MaxTenuringThreshold=10 -XX:MetaspaceSize=21984660 -XX:NewRatio=2 -XX:NewSize=32493959 -XX:SoftRefLRUPolicyMSPerMB=657 -XX:SurvivorRatio=12 -XX:ThreadStackSize=526
+Improvement: 1.79968235061
+Runtime 10074.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:07:39.394027
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:-UseBiasedLocking -XX:+UseGCOverheadLimit -XX:+UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8583 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26792288356605890872 -XX:MaxNewSize=849131347 -XX:MaxTenuringThreshold=8 -XX:MetaspaceSize=21834577 -XX:NewRatio=2 -XX:NewSize=36622874 -XX:SoftRefLRUPolicyMSPerMB=1035 -XX:SurvivorRatio=8 -XX:ThreadStackSize=1402
+Improvement: 1.83131313131
+Runtime 9900.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:08:13.103699
+    
+ -XX:+BackgroundCompilation -XX:+CICompilerCountPerCPU -XX:-DoEscapeAnalysis -XX:-Inline -XX:-UseBiasedLocking -XX:+UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8583 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26792288356605890872 -XX:MaxNewSize=820412204 -XX:MaxTenuringThreshold=8 -XX:MetaspaceSize=18962391 -XX:NewRatio=2 -XX:NewSize=41550094 -XX:SoftRefLRUPolicyMSPerMB=1035 -XX:SurvivorRatio=8 -XX:ThreadStackSize=1402
+Improvement: 1.84023548518
+Runtime 9852.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:09:18.705895
+    
+ -XX:+BackgroundCompilation -XX:+CICompilerCountPerCPU -XX:-DoEscapeAnalysis -XX:-Inline -XX:-UseBiasedLocking -XX:+UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8583 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=19528328756960968704 -XX:MaxMetaspaceSize=26792288356605890872 -XX:MaxNewSize=820412204 -XX:MaxTenuringThreshold=8 -XX:MetaspaceSize=18881346 -XX:NewRatio=2 -XX:NewSize=41550094 -XX:SoftRefLRUPolicyMSPerMB=935 -XX:SurvivorRatio=8 -XX:ThreadStackSize=1311
+Improvement: 1.84642020572
+Runtime 9819.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:10:13.666115
+    
+ -XX:+BackgroundCompilation -XX:+CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:-UseBiasedLocking -XX:+UseGCOverheadLimit -XX:+UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=9366 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26792288356605890872 -XX:MaxNewSize=798592500 -XX:MaxTenuringThreshold=7 -XX:MetaspaceSize=18962391 -XX:NewRatio=2 -XX:NewSize=41550094 -XX:SoftRefLRUPolicyMSPerMB=1035 -XX:SurvivorRatio=8 -XX:ThreadStackSize=1455
+Improvement: 1.84660827052
+Runtime 9818.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:10:24.271265
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:+UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8224 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=27402231763566641152 -XX:MaxNewSize=820412204 -XX:MaxTenuringThreshold=8 -XX:MetaspaceSize=22979684 -XX:NewRatio=2 -XX:NewSize=45997677 -XX:SoftRefLRUPolicyMSPerMB=1035 -XX:SurvivorRatio=8 -XX:ThreadStackSize=1402
+Improvement: 1.85245734137
+Runtime 9787.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:10:46.568219
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:-UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8224 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26755314290750500864 -XX:MaxNewSize=820412204 -XX:MaxTenuringThreshold=8 -XX:MetaspaceSize=22979684 -XX:NewRatio=2 -XX:NewSize=45997677 -XX:SoftRefLRUPolicyMSPerMB=1030 -XX:SurvivorRatio=8 -XX:ThreadStackSize=1399
+Improvement: 1.85720139316
+Runtime 9762.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:11:07.960887
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:-UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8224 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26755314290750500864 -XX:MaxNewSize=820412204 -XX:MaxTenuringThreshold=7 -XX:MetaspaceSize=21240545 -XX:NewRatio=2 -XX:NewSize=45997677 -XX:SoftRefLRUPolicyMSPerMB=1173 -XX:SurvivorRatio=8 -XX:ThreadStackSize=1399
+Improvement: 1.90181474877
+Runtime 9533.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:12:56.463038
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:+UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8224 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26755314290750500864 -XX:MaxNewSize=790486712 -XX:MaxTenuringThreshold=7 -XX:MetaspaceSize=21240545 -XX:NewRatio=2 -XX:NewSize=45997677 -XX:SoftRefLRUPolicyMSPerMB=1173 -XX:SurvivorRatio=10 -XX:ThreadStackSize=1399
+Improvement: 1.91386044548
+Runtime 9473.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:13:17.193025
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:+UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8224 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=25652025768668590080 -XX:MaxNewSize=952852753 -XX:MaxTenuringThreshold=7 -XX:MetaspaceSize=21240545 -XX:NewRatio=2 -XX:NewSize=45997677 -XX:SoftRefLRUPolicyMSPerMB=1173 -XX:SurvivorRatio=10 -XX:ThreadStackSize=1399
+Improvement: 1.91527572364
+Runtime 9466.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:14:08.754248
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:+UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8283 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=4 -XX:MaxGCPauseMillis=20797784755584585728 -XX:MaxMetaspaceSize=26451811589235793920 -XX:MaxNewSize=994013965 -XX:MaxTenuringThreshold=7 -XX:MetaspaceSize=21240545 -XX:NewRatio=2 -XX:NewSize=50605994 -XX:SoftRefLRUPolicyMSPerMB=1237 -XX:SurvivorRatio=10 -XX:ThreadStackSize=1399
+Improvement: 1.91527572364
+Runtime 9466.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:14:29.261960
+    
+ -XX:+BackgroundCompilation -XX:-CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:+UseBiasedLocking -XX:+UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=8029 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=3 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=25652025768668590080 -XX:MaxNewSize=931996677 -XX:MaxTenuringThreshold=9 -XX:MetaspaceSize=21240545 -XX:NewRatio=2 -XX:NewSize=50894861 -XX:SoftRefLRUPolicyMSPerMB=1173 -XX:SurvivorRatio=9 -XX:ThreadStackSize=1399
+Improvement: 1.91649048626
+Runtime 9460.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:15:32.286047
+    
+ -XX:+BackgroundCompilation -XX:+CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:-UseBiasedLocking -XX:-UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=7316 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=4 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26274393909091921920 -XX:MaxNewSize=931996677 -XX:MaxTenuringThreshold=11 -XX:MetaspaceSize=16888393 -XX:NewRatio=2 -XX:NewSize=44331667 -XX:SoftRefLRUPolicyMSPerMB=1235 -XX:SurvivorRatio=9 -XX:ThreadStackSize=1399
+Improvement: 1.92258748674
+Runtime 9430.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:16:25.013248
+    
+ -XX:+BackgroundCompilation -XX:+CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:-UseBiasedLocking -XX:-UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=7316 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=4 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26274393909091921920 -XX:MaxNewSize=880883075 -XX:MaxTenuringThreshold=15 -XX:MetaspaceSize=19833691 -XX:NewRatio=2 -XX:NewSize=47816779 -XX:SoftRefLRUPolicyMSPerMB=1235 -XX:SurvivorRatio=9 -XX:ThreadStackSize=1399
+Improvement: 1.92381154499
+Runtime 9424.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:18:35.182520
+    
+ -XX:+BackgroundCompilation -XX:+CICompilerCountPerCPU -XX:+DoEscapeAnalysis -XX:-Inline -XX:-UseBiasedLocking -XX:-UseGCOverheadLimit -XX:-UseParallelOldGC -XX:-UseSerialGC -XX:CICompilerCount=4 -XX:CompileThreshold=7316 -XX:ErgoHeapSizeLimit=0 -XX:InitialTenuringThreshold=4 -XX:MaxGCPauseMillis=20402228389095275883 -XX:MaxMetaspaceSize=26274393909091921920 -XX:MaxNewSize=718203203 -XX:MaxTenuringThreshold=13 -XX:MetaspaceSize=20627973 -XX:NewRatio=2 -XX:NewSize=47816779 -XX:SoftRefLRUPolicyMSPerMB=1229 -XX:SurvivorRatio=9 -XX:ThreadStackSize=1399
+Improvement: 1.9328358209
+Runtime 9380.0
+default_metric 18130.0
+Configuration Found At: 2017-09-11 07:23:34.950521
+    

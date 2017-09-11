@@ -1,0 +1,1 @@
+-XX:+PrintGCDetails-XX:+PrintGCDateStamps -Xloggc:logFile

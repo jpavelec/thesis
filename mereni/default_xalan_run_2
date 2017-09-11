@@ -1,0 +1,49 @@
+Java HotSpot(TM) 64-Bit Server VM (25.121-b13) for linux-amd64 JRE (1.8.0_121-b13), built on Dec 12 2016 16:36:53 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+Memory: 4k page, physical 8084848k(236584k free), swap 8299516k(8299496k free)
+CommandLine flags: -XX:InitialHeapSize=129357568 -XX:MaxHeapSize=2069721088 -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseParallelGC 
+2017-09-11T00:59:15.900+0200: 0.732: [GC (System.gc()) [PSYoungGen: 17210K->3777K(36864K)] 17210K->3849K(121856K), 0.0036763 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:15.904+0200: 0.736: [Full GC (System.gc()) [PSYoungGen: 3777K->0K(36864K)] [ParOldGen: 72K->3602K(84992K)] 3849K->3602K(121856K), [Metaspace: 7188K->7188K(1056768K)], 0.0158321 secs] [Times: user=0.04 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:16.775+0200: 1.607: [GC (Allocation Failure) [PSYoungGen: 31744K->2272K(36864K)] 35346K->5874K(121856K), 0.0045211 secs] [Times: user=0.00 sys=0.01, real=0.01 secs] 
+2017-09-11T00:59:17.335+0200: 2.167: [GC (Allocation Failure) [PSYoungGen: 34016K->1760K(36864K)] 37618K->5370K(121856K), 0.0023173 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:17.962+0200: 2.794: [GC (Allocation Failure) [PSYoungGen: 33504K->1680K(36864K)] 37114K->5298K(121856K), 0.0024770 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:18.518+0200: 3.350: [GC (Allocation Failure) [PSYoungGen: 33424K->1456K(36864K)] 37042K->5074K(121856K), 0.0077604 secs] [Times: user=0.02 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:19.085+0200: 3.917: [GC (Allocation Failure) [PSYoungGen: 33200K->1712K(33792K)] 36818K->5330K(118784K), 0.0040867 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:19.531+0200: 4.363: [GC (Allocation Failure) [PSYoungGen: 32944K->1520K(32256K)] 36562K->5146K(117248K), 0.0033243 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:19.992+0200: 4.824: [GC (Allocation Failure) [PSYoungGen: 32240K->1184K(33792K)] 35866K->5342K(118784K), 0.0040516 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:20.403+0200: 5.235: [GC (Allocation Failure) [PSYoungGen: 31392K->1152K(31232K)] 35550K->5318K(116224K), 0.0020827 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:20.776+0200: 5.608: [GC (Allocation Failure) [PSYoungGen: 30848K->1168K(31744K)] 35014K->5342K(116736K), 0.0021613 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:21.114+0200: 5.946: [GC (Allocation Failure) [PSYoungGen: 30352K->1168K(30208K)] 34526K->5350K(115200K), 0.0015250 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:21.390+0200: 6.221: [GC (Allocation Failure) [PSYoungGen: 29828K->1008K(31232K)] 34010K->5214K(116224K), 0.0013393 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:21.722+0200: 6.554: [GC (Allocation Failure) [PSYoungGen: 29168K->1088K(29184K)] 33374K->5302K(114176K), 0.0018237 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:22.000+0200: 6.831: [GC (Allocation Failure) [PSYoungGen: 28736K->976K(30208K)] 32950K->5206K(115200K), 0.0015144 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:22.261+0200: 7.093: [GC (Allocation Failure) [PSYoungGen: 28112K->1136K(28160K)] 32342K->5374K(113152K), 0.0018120 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:22.504+0200: 7.336: [GC (Allocation Failure) [PSYoungGen: 27760K->1184K(30720K)] 31998K->5438K(115712K), 0.0080527 secs] [Times: user=0.02 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:22.798+0200: 7.630: [GC (Allocation Failure) [PSYoungGen: 28320K->944K(27648K)] 32574K->5222K(112640K), 0.0012103 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:23.076+0200: 7.908: [GC (Allocation Failure) [PSYoungGen: 27568K->1184K(28672K)] 31846K->5478K(113664K), 0.0013535 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:23.310+0200: 8.141: [GC (Allocation Failure) [PSYoungGen: 27296K->1136K(27136K)] 31590K->5438K(112128K), 0.0020449 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:23.587+0200: 8.419: [GC (Allocation Failure) [PSYoungGen: 26710K->1232K(27648K)] 31012K->5550K(112640K), 0.0012796 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:23.804+0200: 8.635: [GC (Allocation Failure) [PSYoungGen: 26320K->1136K(26112K)] 30638K->5462K(111104K), 0.0011160 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:24.003+0200: 8.834: [GC (Allocation Failure) [PSYoungGen: 25712K->1008K(26112K)] 30038K->5350K(111104K), 0.0011682 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:24.220+0200: 9.052: [GC (Allocation Failure) [PSYoungGen: 25072K->1152K(25088K)] 29414K->5510K(110080K), 0.0012534 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:24.412+0200: 9.244: [GC (Allocation Failure) [PSYoungGen: 24704K->1152K(26112K)] 29062K->5518K(111104K), 0.0011644 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:24.674+0200: 9.505: [GC (Allocation Failure) [PSYoungGen: 24704K->1072K(26112K)] 29070K->5454K(111104K), 0.0010290 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:24.877+0200: 9.709: [GC (Allocation Failure) [PSYoungGen: 24624K->1168K(26112K)] 29006K->5558K(111104K), 0.0014520 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:25.089+0200: 9.921: [GC (Allocation Failure) [PSYoungGen: 24720K->1120K(26112K)] 29110K->5518K(111104K), 0.0021317 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:25.257+0200: 10.089: [GC (Allocation Failure) [PSYoungGen: 24672K->1136K(25088K)] 29070K->5542K(110080K), 0.0012199 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:25.435+0200: 10.266: [GC (Allocation Failure) [PSYoungGen: 24688K->944K(25600K)] 29094K->5366K(110592K), 0.0013791 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:25.654+0200: 10.485: [GC (Allocation Failure) [PSYoungGen: 24496K->1168K(25600K)] 28918K->5598K(110592K), 0.0017453 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:25.853+0200: 10.685: [GC (Allocation Failure) [PSYoungGen: 24720K->1120K(25600K)] 29150K->5558K(110592K), 0.0017598 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:26.037+0200: 10.869: [GC (Allocation Failure) [PSYoungGen: 24672K->1168K(25600K)] 29110K->5614K(110592K), 0.0012532 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:26.249+0200: 11.081: [GC (Allocation Failure) [PSYoungGen: 24720K->1120K(25600K)] 29166K->5574K(110592K), 0.0017572 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:26.429+0200: 11.261: [GC (Allocation Failure) [PSYoungGen: 24672K->1168K(25600K)] 29126K->5630K(110592K), 0.0019880 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2017-09-11T00:59:26.642+0200: 11.474: [GC (Allocation Failure) [PSYoungGen: 24720K->1120K(25600K)] 29182K->5590K(110592K), 0.0011105 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+2017-09-11T00:59:26.855+0200: 11.687: [GC (Allocation Failure) [PSYoungGen: 24672K->1184K(25600K)] 29142K->5670K(110592K), 0.0010907 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+Heap
+ PSYoungGen      total 25600K, used 21351K [0x00000000d6e00000, 0x00000000d8900000, 0x0000000100000000)
+  eden space 23552K, 85% used [0x00000000d6e00000,0x00000000d81b1d58,0x00000000d8500000)
+  from space 2048K, 57% used [0x00000000d8700000,0x00000000d8828180,0x00000000d8900000)
+  to   space 2048K, 0% used [0x00000000d8500000,0x00000000d8500000,0x00000000d8700000)
+ ParOldGen       total 84992K, used 4486K [0x0000000084a00000, 0x0000000089d00000, 0x00000000d6e00000)
+  object space 84992K, 5% used [0x0000000084a00000,0x0000000084e61840,0x0000000089d00000)
+ Metaspace       used 9275K, capacity 9522K, committed 9728K, reserved 1058816K
+  class space    used 1155K, capacity 1209K, committed 1280K, reserved 1048576K

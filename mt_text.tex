@@ -108,7 +108,7 @@ There are many options how to adjust behaviour JVM. For example, we may enforce 
 \end{itemize}
 For listing all standard options is used the command \texttt{java -?} and non-standard options \texttt{java -X}. A situation for listing advanced options becomes little complicated because we have to make a decision which supersets of advanced option we want to list. On the other hand, diagnostic options superset is not the point of interest in this thesis because these options not meant for VM tuning or for product mode. Similarly commercial features. Therefore, for listing advanced options which are relevant for this thesis command \texttt{java -XX:+PrintFlagsFinal -XX:+UnlockExperimentalVMOptions} was used. List of advanced options contains option name, type (e.g. bool, (u)intx, ccstr) and default value (see section \ref{secerg}) and category (e.g. product, experimental).
 
-Generally, there are two types of advanced options: boolean options, and options that require a parameter. The boolean options use the syntax: \texttt{-XX:+OptionName} enables the option, and \texttt{-XX:-OptionName} disables the option. Options with parameter use syntax: \texttt{-XX:OptionName=value}, meaning to set the value of \texttt{OptionName} to \texttt{value}. \cite{scott}
+Generally, there are two types of advanced options: boolean options, and options that require a parameter. The boolean options use the syntax: \texttt{-XX:+OptionName} enables the option, and \texttt{-XX:-OptionName} disables the option. Options with parameter use syntax: \texttt{\seqsplit{-XX:OptionName=value}}, meaning to set the value of \texttt{OptionName} to \texttt{value}. \cite{scott}
 
 
 
@@ -204,7 +204,7 @@ Selected parameters which meets the definition of a small impact, for example:
 	\item \texttt{-XX:AggressiveOpts} -- enables the use of aggressive performance optimization features, notably for compilation.~\cite{java}. In Java 7, enabling this option means that different implementation of some classes will be used\footnote{For example, \texttt{java.math.BigDecimal, java.math.BigInteger, java.util.\ HashMap, java.util.TreeMap}.}. Functionality these classes is the same but they have more efficient implementations. Since Java 8, there are not alternate implementations in the JVM\footnote{Either more efficient implementations have been incorporated into the base JDK classes, or the base JDK classes have been improved in other ways. \cite{scott}}.
 	
 	When \texttt{-XX:AggressiveOpts} option is enabled default values of options \texttt{AutoBoxCacheMax} and \texttt{BiasedLockingStartupDelay} are changed also because of achievement better optimization.
-	\item \texttt{-XX:GCTimeLimit} -- 
+%	\item \texttt{-XX:GCTimeLimit} -- 
 	
 \end{itemize}
 %{\color{red} Dobry je napsat, ze nejde vybrat parametry obecne pro vsechny metriky -- tyto jsou maximalne obecne. Pokud budeme ladit compilaci, budeme muset pravdepodobne sahnout i na ty, ktere jsou nyni ve small impactu a naopak vypustit napr. max. velikost haldy, protoze tento parametr by efektivnost kompilace nemel ovlivnit. Naopak pokud budeme ladit footprint a pouzijeme nejaky z garbage kolektoru a budeme potrebovat jemneji vyladit jeho chovani, budeme muset opet sahnout po parametrech, ktere jsou ve small impact, resp. uvedeny jako komplex a pouzity kolektor je jejich parent option.}
@@ -217,7 +217,7 @@ Essentially, there are options that don't have any influence on performance. The
 Represents the biggest set of options with no quality documentation. As described in the beginning of this chapter, all options testing is hardly feasible. This thesis doesn't deal with it.
 
 \chapter{Tools}
-%TODO
+
 %Co se tyce nastroju rad bych videl prehled / analyzu existujicich nastroju:
 %- info jestli je nastroj udrzovan,
 %- jestli je open source
@@ -240,7 +240,6 @@ A JConsole is a graphical tools that allows monitor and manage Java applications
 	\label{jconsole}
 \end{figure}
 
-%TODO GCViewer na analyzu GC logu
 \subsection{GC Viewer}
 GC Viewer is a tool for analysis GC logs. Firstly, you have to run a JVM with options \texttt{-Xloggc:}\textit{logFile} \texttt{\seqsplit{-XX:+PrintGCDetails -XX:+PrintGCDateStamps}}, where \textit{logFile} is a file where GC events will be stored. Secondly, open the \textit{logFile} in the GC Viewer to assessment of effectiveness GC operations, memory footprint, heap usage, throughput and so on. Therefore GC Viewer is an offline tool.
 This tool is completely written in Java language. Tagtraum industries\footnote{http://www.tagtraum.com/gcviewer.html} developed GC Viewer till 2008. Since this time it's open source project\footnote{Official repository is accessible at \url{https://github.com/chewiebug/GCViewer}} under GNU Lesser General Public License.\cite{gcviewer} The GC Viewer is being updated. All support JVMs are in table \ref{gcviewersupportsjvms}.
@@ -252,17 +251,12 @@ This tool is completely written in Java language. Tagtraum industries\footnote{h
 	\label{gcviwer}
 \end{figure}
 
-%TODO urcite nechat bezet delsi dobu nejakou narocnejsi aplikaci a dat screen s grafem
-
-
-
-
 
 \section{Automatic optimization tools}\label{autoopt}
 
 %TODO registruj se na https://www.dynatrace.com/trial/?vehicle_name=https://www.dynatrace.com/technologies/java-monitoring/ pro vyzkouseni dynatrace a pripadne s nim muzes pak neco zmerit a optimalizovat a zahrnout do prace.
 
-\subsection{JATT}
+\subsection{JATT}\label{jatt}
 A JATT (JVM Auto Tuning Tool) is an open source software tool which was developed to optimize JVM. The JATT is based on the OpenTuner\footnote{"OpenTuner is a new framework for building domain-specific multi-objective program autotuners. OpenTuner supports fully customizable configuration representations, an extensible technique representation to allow for domain-specific techniques, and an easy to use interface for communicating with the tuned program." \url{http://opentuner.org/}} framework and it supports only the Linux environment. Aforementioned tool offers the Console mode and the Graphical User Interface as well. Authors highly recommend to use the console mode for more advanced work. The JATT is designed to tune especially HotSpot JVM (namely, it was tested on OpenJDK 7 update 55) but it can be modified to auto tune a different JVM.
 \cite{jatt-web} \cite{jatt-web-dzone}
 %TODO sel by trochu doplnit OpenTuner -- algoritmy, techniky hledani apod. podle http://groups.csail.mit.edu/commit/papers/2014/ansel-pact14-opentuner.pdf
@@ -293,7 +287,7 @@ Parameters of command are:
 	\item \textit{application} -- Java application to auto tune (a \texttt{*.class} file)
 	\item \textit{numberOfIterations} -- measured runtime is average of \textit{numberOfIterations} runs
 	\item \textit{optionCategory} -- you can use one or more categories which are separated by commas (see picture \ref{jatt-hierarchy})
-	\item \textit{fileWithResults} -- a text file will be stored in \texttt{src/TunedConfiguration} folder with found configurations. If you more times run command with same \textit{fileWithResults} data will not be overwritten while new records will be added. A result entry syntax is shown in figure \ref{jatt-result}
+	\item \textit{fileWithResults} -- a text file will be stored in \texttt{\seqsplit{src/TunedConfiguration}} folder with found configurations. If you more times run command with same \textit{fileWithResults} data will not be overwritten while new records will be added. A result entry syntax is shown in figure \ref{jatt-result}
 \end{itemize}
 
 In figure \ref{jatt-result} is an example of \textit{fileWithResults} file. There is group(s) options configuration on the first line used to achieve given runtime. The \texttt{Improvement} represents ratio of improvements which is given by equation: $Improvement = Default\ metric / Runtime$ \cite{jatt-web-dzone}, where \texttt{Default metric} is the application runtime without changed JVM options. Result file ordinarily contains increasing entry sequence by improvement factor including a header with information about used option group(s) and tuning start time.
@@ -309,7 +303,6 @@ In figure \ref{jatt-result} is an example of \textit{fileWithResults} file. Ther
 	\label{jatt-result}
 \end{figure}
 
-%TODO
 %Co se tyce nastroju rad bych videl prehled / analyzu existujicich nastroju:
 %- info jestli je nastroj udrzovan,
 %- jestli je open source
@@ -325,10 +318,9 @@ Philipp Lengauer and Hanspeter Mössenböck deal with automatic parameter tuning
 
 
 %TODO spoluprace s Dynatrace, popsat techniky jaho hill-climbing a dalsi, ktere ParamILS vyuziva
-
+%TODO nezapomen porovnat tyto dva nastroje
 
 \subsection{Commercial tools}
-%TODO applicare, dynatrace, plumbr(?)
 Among important non-freely accessible tools belong:
 \begin{itemize}
 	\item Arcturus Applicare\footnote{\url{http://www.arcturustech.com/tunewizard.html}} -- comprehensive tool for automated performance tuning, intelligent monitoring, optimization and instant root cause analysis. Applicable for great systems such web applications.
@@ -337,7 +329,7 @@ Among important non-freely accessible tools belong:
 \end{itemize}
 
 
-%TODO nezapomen porovnat tyto dva nastroje
+
 
 %{\color{red} In many cases, though, remember that the JVM is a small part of the overall performance picture. \cite{scott} p. 10}
 
@@ -349,7 +341,6 @@ Among important non-freely accessible tools belong:
 \chapter{Optimization JVM}
 
 \section{Application}
-%TODO popsat dacapo benchmark
 The DaCapo benchmark suite version 9.12 was chosen for the primal experimentation with JVM tuning. This suite includes these benchmarks: \cite{DaCapo:paper}
 \begin{itemize}
 	\item \textbf{antlr} -- A parser generator and translator generator
@@ -372,7 +363,7 @@ A machine with these parameters was used for measurement:
 	\item Operating system -- Ubuntu 16.04, kernel Linux 4.10.0-33-generic (x86\_64)
 \end{itemize}
 
-Firstly, 10 runs of \textit{xalan} benchmark without warm-up period were realized. Measured values are in table \ref{default}. Secondly, an auto tuning tool was used to gain JVM options. Thirdly, 10 runs of \textit{xalan} benchmark were realized again to observe performance changes.
+Firstly, 10 runs of \textit{xalan} benchmark without warm-up period were realized. Measured values are in table \ref{default}. Secondly, an auto tuning tool was used to gain JVM options. Thirdly, 10 runs of \textit{xalan} benchmark with tuned options were realized again to observe performance changes.
 
 %TODO dat tam taky mnou vybrane parametry z bigimpactu a provest mereni - temporary na xalanu
 %TODO One particularly important case of testing a full application occurs when multiple applications are run at the same time on the same hardware. Many aspects of the JVM are	tuned by default to assume that all machine resources are available to them, and if those JVMs are tested in isolation, they will behave well. If they are tested when other applications are present (including, but not limited to, other JVMs), their performance will be quite different. \cite{scott} p. 18}
@@ -385,11 +376,33 @@ A reduction runtime by 8 \% is significant together without any code adjustment.
 
 With the goal of reducing memory footprint another JATT flag was used -- namely \textit{memory} flag. Memory footprint has been reduced from original 128 MB to 37 MB with runtime improvement by 6 \%. In comparison to previous optimized JVM settings, there is runtime increase by approximately 2.5 \%.  Complete results are in table \ref{jattmemoryresults} and found options are in figure \ref{jatttunedmemoryoptions}.
 
+In this part of thesis will be \textit{Big Impact} options (in table \ref{bigimpactprimitive}) tune. As was described in section \ref{jatt}, the JATT tool allows tuning own set of JVM options. Chosen options are stored in \texttt{\seqsplit{src/Flags/Temporary/temporary.csv}} file and auto tuning initiates same command but with \textit{temporary} flag. This file was filled with \textit{Big Impact Primitive} options.
+
+The best options setting what JATT has found is in figure \ref{jatttunedbigimpactoptions}. \textit{Xalan} benchmark achieved average values 12009 milliseconds for runtime and 46 MB for memory footprint. It means the application has run by 5 \% longer than the application in the default settings and used about 82 MB less memory space. Measured values are in table \ref{jattbigimpactresults}.
+
 \section{ParamILS}
+This framework was used to optimize parameters stored in \texttt{\seqsplit{gc\_parameter\_model/params\_gc}} file which led to improvement time and space complexity as well. Specifically, \textit{Xalan} benchmark needed by 7 \% runtime and almost 60 \% memory space less to finished test. Measured values are in table \ref{ilsgcresults} and gained settings is in figure \ref{ilsgcoptions}.
+
 \section{Comparison}
+All results are enclosed in chapter \ref{results}. In next two figures are graphically compared measured data. Apparently, setting which leads to the fastest application run is simultaneously the most memory consumption. Settings gained by JATT with \textit{memory} flag and ParamILS with GC parameter model are better in both observed metrics.
 
+When chosen \textit{Big Impact} options was used to tune a JVM setting, it led to deterioration of runtime and memory footprint as well. It could be caused by overly restricted option set and/or incorrect combination of options which JATT cannot improve.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm]{fig/runtimeBiggerFont.pdf}
+	\caption{A comparison of an application runtime. Less is better.}
+	\label{runtime}
+\end{figure}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm]{fig/footprintBiggerFont.pdf}
+	\caption{An overall application memory footprint. Less is better.}
+	\label{footprint}
+\end{figure}
+
+\clearpage
 \bibliographystyle{ieeetran}
 \bibliography{bibfile}
 
@@ -397,37 +410,23 @@ With the goal of reducing memory footprint another JATT flag was used -- namely 
 \chapter{Big impact options}
 \begin{table}[]
 	\centering
-	\begin{tabular}{ll}
-	\cline{1-1}
-	\multicolumn{1}{|l|}{\textbf{Primitive}}                         &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-d32 | -d64}                                &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-server | -client}                          &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-Xmixed | -Xcomp | -Xint}                   &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-Xms\textless size\textgreater}              &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-Xmx\textless size\textgreater}              &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-Xss\textless size\textgreater}              &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:AggressiveOpts}                         &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:BackgroundCompilation}                  &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:CICompilerCount}                        &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:CICompilerCountPerCPU}                  &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:CompileThreshold}                       &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:DoEscapeAnalysis}                       &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:ErgoHeapSizeLimit}                      &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:InitialTenuringThreshold}               &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:Inline}                                 &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:MaxMetaspaceSize}                       &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:MaxNewSize}                             &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:MaxTenuringThreshold}                   &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:MetaspaceSize}                          &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:NewRatio}                               &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:NewSize}                                &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:SoftRefLRUPolicyMSPerMB}                &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:SurvivorRatio}                          &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:ThreadStackSize}                        &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:UseBiasedLocking}                       &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:UseGCOverheadLimit}                     &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:UseParallelOldGC}                       &                                                             \\ \cline{1-1}
-	\multicolumn{1}{|l|}{-XX:UseSerialGC}                            &                                                             \\ \cline{1-1}
+	\begin{tabular}{|l|l|}
+		\hline
+		-d32 | -d64                   & -XX:Inline                  \\ \hline
+		-server | -client             & -XX:MaxGCPauseMillis        \\ \hline
+		-Xmixed                       & -XX:MaxMetaspaceSize        \\ \hline
+		-Xcomp                        & -XX:MaxNewSize              \\ \hline
+		-Xint                         & -XX:MaxTenuringThreshold    \\ \hline
+		-Xms						  & -XX:MetaspaceSize           \\ \hline
+		-Xmx						  & -XX:NewRatio                \\ \hline
+		-Xss						  & -XX:NewSize                 \\ \hline
+		-XX:BackgroundCompilation     & -XX:SoftRefLRUPolicyMSPerMB \\ \hline
+		-XX:CICompilerCount           & -XX:SurvivorRatio           \\ \hline
+		-XX:CICompilerCountPerCPU     & -XX:ThreadStackSize         \\ \hline
+		-XX:CompileThreshold          & -XX:UseBiasedLocking        \\ \hline
+		-XX:DoEscapeAnalysis          & -XX:UseGCOverheadLimit      \\ \hline
+		-XX:ErgoHeapSizeLimit         & -XX:UseParallelOldGC        \\ \hline
+		-XX:InitialTenuringThreshold  & -XX:UseSerialGC             \\ \hline
 	\end{tabular}
 	\caption{The big impact primitive options. It's possible to use any option without enabling the other one. These options subject subsequent optimization.}
 	\label{bigimpactprimitive}
@@ -480,6 +479,7 @@ With the goal of reducing memory footprint another JATT flag was used -- namely 
 	\label{gcviewersupportsjvms}
 \end{table}
 
+\chapter{Results}\label{results}
 \begin{table}[]
 	\centering
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -543,16 +543,93 @@ With the goal of reducing memory footprint another JATT flag was used -- namely 
 	\label{jattmemoryresults}
 \end{table}
 
+\begin{table}[]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Run              & \begin{tabular}[c]{@{}c@{}}Runtime\\ {[}msec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Memory\\ Footprint \\ {[}MB{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Accumul.\\ Pauses \\ {[}sec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Full GC\\ Perf.\\ {[}MB/s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}GC\\ Perf.\\ {[}MB/s{]}\end{tabular} \\ \hline
+		1                & 11934                                                        & 46.1                                                                   & 0.08                                                                   & 22.1                                                                 & 13831.4                                                         \\ \hline
+		2                & 12034                                                        & 45.9                                                                   & 0.06                                                                   & 27.6                                                                 & 19230.4                                                         \\ \hline
+		3                & 11950                                                        & 45.8                                                                   & 0.06                                                                   & 22.3                                                                 & 18530                                                           \\ \hline
+		4                & 12034                                                        & 46                                                                     & 0.07                                                                   & 23                                                                   & 16739.3                                                         \\ \hline
+		5                & 12083                                                        & 46                                                                     & 0.07                                                                   & 37                                                                   & 14005.5                                                         \\ \hline
+		6                & 11984                                                        & 46.1                                                                   & 0.07                                                                   & 30.8                                                                 & 15018.3                                                         \\ \hline
+		7                & 12152                                                        & 46                                                                     & 0.06                                                                   & 26.8                                                                 & 18473.5                                                         \\ \hline
+		8                & 12035                                                        & 46.1                                                                   & 0.07                                                                   & 24                                                                   & 16687.3                                                         \\ \hline
+		9                & 12000                                                        & 46.1                                                                   & 0.06                                                                   & 33.3                                                                 & 19396.4                                                         \\ \hline
+		10               & 11880                                                        & 46.1                                                                   & 0.06                                                                   & 25.1                                                                 & 17798                                                           \\ \hline
+		\textbf{Average} & \textbf{12009}                                               & \textbf{46.02}                                                         & \textbf{0.066}                                                         & \textbf{27.2}                                                        & \textbf{16971.01}                                               \\ \hline
+	\end{tabular}
+	\caption{\textit{Xalan} benchmark runs with settings found by JATT with temporary -- big impact options. Used settings is in a figure \ref{jatttunedbigimpactoptions}}
+	\label{jattbigimpactresults}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Run              & \begin{tabular}[c]{@{}c@{}}Runtime\\ {[}msec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Memory\\ Footprint\\ {[}MB{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Accumul.\\ Pauses\\ {[}sec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Full GC\\ Perf.\\ {[}MB/s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}GC\\ Perf.\\ {[}MB/s{]}\end{tabular} \\ \hline
+		1                & 8707                                                         & 231.3                                                                 & 0.03                                                                  & 879.9                                                                & 67354.3                                                         \\ \hline
+		2                & 8949                                                         & 231.4                                                                 & 0.03                                                                  & 1523.2                                                               & 74420.9                                                         \\ \hline
+		3                & 8794                                                         & 231.4                                                                 & 0.03                                                                  & 2100.2                                                               & 71483.6                                                         \\ \hline
+		4                & 8731                                                         & 231.3                                                                 & 0.03                                                                  & 1600.6                                                               & 73481.3                                                         \\ \hline
+		5                & 8750                                                         & 231.5                                                                 & 0.03                                                                  & 1874.4                                                               & 72028.1                                                         \\ \hline
+		6                & 8740                                                         & 231.5                                                                 & 0.03                                                                  & 1590.3                                                               & 72196.1                                                         \\ \hline
+		7                & 8734                                                         & 231.4                                                                 & 0.03                                                                  & 1557.1                                                               & 60351.8                                                         \\ \hline
+		8                & 8742                                                         & 231.5                                                                 & 0.04                                                                  & 1049.7                                                               & 57957.4                                                         \\ \hline
+		9                & 8736                                                         & 231.3                                                                 & 0.02                                                                  & 1962.3                                                               & 73589.8                                                         \\ \hline
+		10               & 8791                                                         & 231.5                                                                 & 0.05                                                                  & 1986.8                                                               & 26118.7                                                         \\ \hline
+		\textbf{Average} & \textbf{8767}                                                & \textbf{231.41}                                                       & \textbf{0.032}                                                        & \textbf{1612.45}                                                     & \textbf{64898.2}                                                \\ \hline
+	\end{tabular}
+	\caption{\textit{Xalan} benchmark runs with settings found by JATT with all options.}
+	\label{jattalloptionsresults}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Run              & \begin{tabular}[c]{@{}c@{}}Runtime\\ {[}msec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Memory\\ Footprint \\ {[}MB{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Accumul.\\ Pauses \\ {[}sec{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Full GC\\ Perf.\\ {[}MB/s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}GC\\ Perf.\\ {[}MB/s{]}\end{tabular} \\ \hline
+		1                & 10562                                                        & 52.7                                                                   & 0.07                                                                   & n/a                                                                  & 13680.5                                                         \\ \hline
+		2                & 10595                                                        & 52.9                                                                   & 0.06                                                                   & n/a                                                                  & 16334.1                                                         \\ \hline
+		3                & 10197                                                        & 52.7                                                                   & 0.06                                                                   & n/a                                                                  & 16309.2                                                         \\ \hline
+		4                & 10202                                                        & 52.9                                                                   & 0.06                                                                   & n/a                                                                  & 16146.6                                                         \\ \hline
+		5                & 10663                                                        & 52.7                                                                   & 0.07                                                                   & n/a                                                                  & 14377.5                                                         \\ \hline
+		6                & 10660                                                        & 52.9                                                                   & 0.07                                                                   & n/a                                                                  & 13791.2                                                         \\ \hline
+		7                & 10430                                                        & 52.9                                                                   & 0.08                                                                   & n/a                                                                  & 12153.7                                                         \\ \hline
+		8                & 10683                                                        & 52.9                                                                   & 0.07                                                                   & n/a                                                                  & 12806.3                                                         \\ \hline
+		9                & 10457                                                        & 53                                                                     & 0.06                                                                   & n/a                                                                  & 16134.5                                                         \\ \hline
+		10               & 10523                                                        & 52.9                                                                   & 0.06                                                                   & n/a                                                                  & 15632.7                                                         \\ \hline
+		\textbf{Average} & \textbf{10497}                                               & \textbf{52.85}                                                         & \textbf{0.066}                                                         & \textbf{n/a}                                                         & \textbf{14736.63}                                               \\ \hline
+	\end{tabular}
+	\caption{\textit{Xalan} benchmark runs with settings found by ParamILS with GC parameters model. Used settings is in a figure \ref{ilsgcoptions}}
+	\label{ilsgcresults}
+\end{table}
+
 \begin{figure}[h]
 	\texttt{\seqsplit{-XX:+UseParNewGC\ -XX:+ParGCUseLocalOverflow\ -XX:-ParGCTrimOverflow\ -XX:-CMSParallelRemarkEnabled\ -XX:-CMSParallelSurvivorRemarkEnabled\ -XX:-CMSPLABRecordAlways\ -XX:+CMSConcurrentMTEnabled\ -XX:ParGCArrayScanChunk=66\ -XX:ParGCDesiredObjsFromOverflowList=25\ -XX:CMSYoungGenPerWorker=83001713\ -XX:-UseConcMarkSweepGC\ -XX:+ResizePLAB\ -XX:+ResizeOldPLAB\ -XX:+AlwaysPreTouch\ -XX:+ParallelRefProcEnabled\ -XX:+ParallelRefProcBalancingEnabled\ -XX:+UseTLAB\ -XX:+ResizeTLAB\ -XX:-ZeroTLAB\ -XX:-FastTLABRefill\ -XX:+NeverActAsServerClassMachine\ -XX:+AlwaysActAsServerClassMachine\ -XX:-UseAutoGCSelectPolicy\ -XX:-UseAdaptiveSizePolicy\ -XX:-UsePSAdaptiveSurvivorSizePolicy\ -XX:-UseAdaptiveGenerationSizePolicyAtMinorCollection\ -XX:+UseAdaptiveGenerationSizePolicyAtMajorCollection\ -XX:+UseAdaptiveSizePolicyWithSystemGC\ -XX:-UseAdaptiveGCBoundary\ -XX:-UseAdaptiveSizePolicyFootprintGoal\ -XX:-UseAdaptiveSizeDecayMajorGCCost\ -XX:+UseGCOverheadLimit\ -XX:-DisableExplicitGC\ -XX:+CollectGen0First\ -XX:-BindGCTaskThreadsToCPUs\ -XX:-UseGCTaskAffinity\ -XX:YoungPLABSize=5237\ -XX:OldPLABSize=836\ -XX:GCTaskTimeStampEntries=263\ -XX:TargetPLABWastePct=10\ -XX:PLABWeight=37\ -XX:OldPLABWeight=50\ -XX:MarkStackSize=4875124\ -XX:MarkStackSizeMax=370523639\ -XX:RefDiscoveryPolicy=0\ -XX:InitiatingHeapOccupancyPercent=27\ -XX:MaxRAM=200187289457\ -XX:ErgoHeapSizeLimit=0\ -XX:MaxRAMFraction=2\ -XX:DefaultMaxRAMFraction=6\ -XX:MinRAMFraction=3\ -XX:InitialRAMFraction=69\ -XX:AutoGCSelectPauseMillis=7432\ -XX:AdaptiveSizeThroughPutPolicy=0\ -XX:AdaptiveSizePausePolicy=0\ -XX:AdaptiveSizePolicyInitializingSteps=18\ -XX:AdaptiveSizePolicyOutputInterval=0\ -XX:AdaptiveSizePolicyWeight=15\ -XX:AdaptiveTimeWeight=25\ -XX:PausePadding=0\ -XX:PromotedPadding=3\ -XX:SurvivorPadding=1\ -XX:ThresholdTolerance=10\ -XX:AdaptiveSizePolicyCollectionCostMargin=30\ -XX:YoungGenerationSizeIncrement=28\ -XX:YoungGenerationSizeSupplement=79\ -XX:YoungGenerationSizeSupplementDecay=6\ -XX:TenuredGenerationSizeIncrement=28\ -XX:TenuredGenerationSizeSupplement=43\ -XX:TenuredGenerationSizeSupplementDecay=3\ -XX:MaxGCPauseMillis=16793486230599948288\ -XX:GCPauseIntervalMillis=0\ -XX:MaxGCMinorPauseMillis=12369914655517609984\ -XX:GCTimeRatio=145\ -XX:AdaptiveSizeDecrementScaleFactor=4\ -XX:AdaptiveSizeMajorGCDecayTimeScale=14\ -XX:MinSurvivorRatio=2\ -XX:InitialSurvivorRatio=4\ -XX:BaseFootPrintEstimate=391267844\ -XX:GCHeapFreeLimit=3\ -XX:PrefetchCopyIntervalInBytes=766\ -XX:PrefetchScanIntervalInBytes=534\ -XX:PrefetchFieldsAhead=1\ -XX:ProcessDistributionStride=5}}
 	\label{jatttunedgcoptions}
 	\caption{JVM options for \textit{xalan} benchmark found by JATT with \textit{gc} flag.}
 \end{figure}
 
+
+
 \begin{figure}[h]
 	\texttt{\seqsplit{-XX:-UseSharedSpaces\ -XX:+RequireSharedSpaces\ -XX:-DumpSharedSpaces\ -XX:+RelaxAccessControlCheck\ -XX:+UseVMInterruptibleIO\ -XX:ThreadSafetyMargin=72943233\ -XX:StackYellowPages=2\ -XX:StackShadowPages=25\ -XX:ThreadStackSize=1328\ -XX:VMThreadStackSize=1304\ -XX:CompilerThreadStackSize=0\ -XX:SharedReadWriteSize=16288215\ -XX:SharedReadOnlySize=10350874\ -XX:SharedMiscDataSize=5788599\ -XX:SharedMiscCodeSize=77206}}
 	\label{jatttunedmemoryoptions}
 	\caption{JVM options for \textit{xalan} benchmark found by JATT with \textit{memory} flag.}
+\end{figure}
+
+\begin{figure}[h]
+	\texttt{\seqsplit{-XX:+BackgroundCompilation\ -XX:+CICompilerCountPerCPU\ -XX:+DoEscapeAnalysis\ -XX:-Inline\ -XX:-UseBiasedLocking\ -XX:-UseGCOverheadLimit\ -XX:-UseParallelOldGC\ -XX:-UseSerialGC\ -XX:CICompilerCount=4\ -XX:CompileThreshold=7316\ -XX:ErgoHeapSizeLimit=0\ -XX:InitialTenuringThreshold=4\ -XX:MaxGCPauseMillis=20402228389095275883\ -XX:MaxMetaspaceSize=26274393909091921920\ -XX:MaxNewSize=718203203\ -XX:MaxTenuringThreshold=13\ -XX:MetaspaceSize=20627973\ -XX:NewRatio=2\ -XX:NewSize=47816779\ -XX:SoftRefLRUPolicyMSPerMB=1229\ -XX:SurvivorRatio=9\ -XX:ThreadStackSize=1399}}
+	\label{jatttunedbigimpactoptions}
+	\caption{JVM options for \textit{xalan} benchmark found by JATT with \textit{temporary -- big impact} options.}
+\end{figure}
+
+\begin{figure}[h]
+	\texttt{\seqsplit{-XX:MaxHeapFreeRatio=90\ -XX:AdaptiveSizeMajorGCDecayTimeScale=15\ -XX:YoungGenerationSizeSupplement=90\ -XX:AdaptiveSizeThroughPutPolicy=1\ -XX:YoungGenerationSizeSupplementDecay=2\ -XX:-ResizePLAB\ -XX:+DisableExplicitGC\ -XX:TenuredGenerationSizeSupplement=70\ -XX:TenuredGenerationSizeSupplementDecay=16\ -XX:MinSurvivorRatio=2\ -XX:+BindGCTaskThreadsToCPUs\ -XX:MaxTenuringThreshold=4\ -XX:NewRatio=1\ -XX:-UseAdaptiveSizePolicy\ -XX:MinHeapFreeRatio=10\ -XX:YoungPLABSize=1024\ -XX:-UseAdaptiveSizeDecayMajorGCCost\ -XX:+CollectGen0First\ -XX:AdaptiveSizePausePolicy=1\ -XX:AdaptiveSizePolicyInitializingSteps=80\ -XX:PLABWeight=80\ -XX:YoungGenerationSizeIncrement=10\ -XX:AdaptiveSizePolicyWeight=40\ -XX:+UseAdaptiveSizePolicyWithSystemGC\ -XX:AdaptiveSizeDecrementScaleFactor=2}}
+	\label{ilsgcoptions}
+	\caption{JVM options for \textit{xalan} benchmark found by ParamILS with gc parameters model.}
 \end{figure}
 
 

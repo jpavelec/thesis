@@ -1,0 +1,82 @@
+JVM Hostspot Configuration file for benchmark xalan
+Tuner started on = 2017-09-11 04:36:34.699093
+Tuning Flags : memory
+Default Configuration Metric:11733.0
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:-UseVMInterruptibleIO -XX:ThreadSafetyMargin=78518112 -XX:StackYellowPages=3 -XX:StackShadowPages=26 -XX:ThreadStackSize=961 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=22923150 -XX:SharedMiscDataSize=3278907 -XX:SharedMiscCodeSize=161237
+Improvement: 1.05446211917
+Runtime 11127.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:37:01.359880
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:-UseVMInterruptibleIO -XX:ThreadSafetyMargin=78518112 -XX:StackYellowPages=3 -XX:StackShadowPages=25 -XX:ThreadStackSize=961 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=22923150 -XX:SharedMiscDataSize=3278907 -XX:SharedMiscCodeSize=161237
+Improvement: 1.0728785662
+Runtime 10936.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:37:27.287384
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:-UseVMInterruptibleIO -XX:ThreadSafetyMargin=71389105 -XX:StackYellowPages=3 -XX:StackShadowPages=25 -XX:ThreadStackSize=837 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=9775923 -XX:SharedMiscDataSize=3278907 -XX:SharedMiscCodeSize=77206
+Improvement: 1.07889655172
+Runtime 10875.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:38:16.871461
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:-UseVMInterruptibleIO -XX:ThreadSafetyMargin=71389105 -XX:StackYellowPages=3 -XX:StackShadowPages=20 -XX:ThreadStackSize=837 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=19180361 -XX:SharedReadOnlySize=9775923 -XX:SharedMiscDataSize=3278907 -XX:SharedMiscCodeSize=77206
+Improvement: 1.08860642049
+Runtime 10778.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:39:55.080784
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:-UseVMInterruptibleIO -XX:ThreadSafetyMargin=48093227 -XX:StackYellowPages=3 -XX:StackShadowPages=25 -XX:ThreadStackSize=837 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=9775923 -XX:SharedMiscDataSize=3278907 -XX:SharedMiscCodeSize=77206
+Improvement: 1.10563513004
+Runtime 10612.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:40:30.588994
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:+UseVMInterruptibleIO -XX:ThreadSafetyMargin=48093227 -XX:StackYellowPages=3 -XX:StackShadowPages=25 -XX:ThreadStackSize=837 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=9775923 -XX:SharedMiscDataSize=3278907 -XX:SharedMiscCodeSize=77206
+Improvement: 1.10897920605
+Runtime 10580.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:41:17.990228
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:+UseVMInterruptibleIO -XX:ThreadSafetyMargin=48093227 -XX:StackYellowPages=3 -XX:StackShadowPages=25 -XX:ThreadStackSize=837 -XX:VMThreadStackSize=1314 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=9775923 -XX:SharedMiscDataSize=3278907 -XX:SharedMiscCodeSize=77206
+Improvement: 1.11498622066
+Runtime 10523.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:41:29.370436
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:+UseVMInterruptibleIO -XX:ThreadSafetyMargin=48093227 -XX:StackYellowPages=3 -XX:StackShadowPages=25 -XX:ThreadStackSize=1438 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=9775923 -XX:SharedMiscDataSize=2126624 -XX:SharedMiscCodeSize=77206
+Improvement: 1.12817307692
+Runtime 10400.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:42:03.701537
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:+UseVMInterruptibleIO -XX:ThreadSafetyMargin=48093227 -XX:StackYellowPages=3 -XX:StackShadowPages=25 -XX:ThreadStackSize=1438 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=9775923 -XX:SharedMiscDataSize=5788599 -XX:SharedMiscCodeSize=77206
+Improvement: 1.13241965061
+Runtime 10361.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:43:12.179508
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:+UseVMInterruptibleIO -XX:ThreadSafetyMargin=48093227 -XX:StackYellowPages=3 -XX:StackShadowPages=25 -XX:ThreadStackSize=1328 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=10350874 -XX:SharedMiscDataSize=5788599 -XX:SharedMiscCodeSize=77206
+Improvement: 1.14512980675
+Runtime 10246.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:46:04.983293
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:+UseVMInterruptibleIO -XX:ThreadSafetyMargin=48093227 -XX:StackYellowPages=1 -XX:StackShadowPages=25 -XX:ThreadStackSize=1328 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=10350874 -XX:SharedMiscDataSize=5788599 -XX:SharedMiscCodeSize=77206
+Improvement: 1.14781843084
+Runtime 10222.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:46:27.395510
+    
+ -XX:-UseSharedSpaces -XX:-RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:+UseVMInterruptibleIO -XX:ThreadSafetyMargin=72943233 -XX:StackYellowPages=1 -XX:StackShadowPages=25 -XX:ThreadStackSize=1328 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=10350874 -XX:SharedMiscDataSize=5788599 -XX:SharedMiscCodeSize=77206
+Improvement: 1.15698649048
+Runtime 10141.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:47:01.144208
+    
+ -XX:-UseSharedSpaces -XX:+RequireSharedSpaces -XX:-DumpSharedSpaces -XX:+RelaxAccessControlCheck -XX:+UseVMInterruptibleIO -XX:ThreadSafetyMargin=72943233 -XX:StackYellowPages=2 -XX:StackShadowPages=25 -XX:ThreadStackSize=1328 -XX:VMThreadStackSize=1304 -XX:CompilerThreadStackSize=0 -XX:SharedReadWriteSize=16288215 -XX:SharedReadOnlySize=10350874 -XX:SharedMiscDataSize=5788599 -XX:SharedMiscCodeSize=77206
+Improvement: 1.1580142124
+Runtime 10132.0
+default_metric 11733.0
+Configuration Found At: 2017-09-11 04:48:08.898354
+    
