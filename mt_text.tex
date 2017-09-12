@@ -69,6 +69,8 @@ The Java 8 HotSpot Virtual Machine implementation is maintained by Oracle corpor
 
 Since the first version of JVM was interpreted, the statement "\textit{Java is slow}" has persisted notwithstanding it's not true in these days. More information regarding this topic will be provided in next sections.
 
+\section{Compilation}
+
 As mentioned earlier, the main purpose of JVM is executing \textit{bytecode} on a specific platform which means translating \textit{bytecode} to native code of CPU. Since interpreting of \textit{bytecode} had appeared inefficient, an approach called \textit{Just-In-Time} compilation (JIT) was introduced in Java 1.2 \cite{javavsc}. A JVM implementation with JIT compiler translates a program into native code on the fly. Native code is cached and reused without recompiled. The extent of native code optimization is limited in this case because translation should be fast.
 
 Java HotSpot VM is appropriately named after approach it takes toward compiling the code. A small part of the code is executed frequently in common programs. Frequent code sections represent approximately 20 \%\footnote{\url{http://artiomg.blogspot.cz/2011/10/just-in-time-compiler-jit-in-hotspot.html}} which are in accordance with the Pareto principle. These sections are called \textit{hot spots}. The more the section of code is executed, the hotter section is said to be. The faster will be \textit{hot spots} executed, the higher performance of an application will be. \cite{scott}
@@ -77,14 +79,14 @@ Oracle's HotSpot VM combines interpretation and translation. First, it interpret
 
 The choice of which compiler to use is often the only one decision that is done during the compiler tuning. Even, choosing of compiler must be considered before JVM is installed because different JVM binaries contain different compilers. \cite{scott}
 
-Another important role of any JVM implementations is automatic memory management known as \textbf{Garbage collections (GC)}. There are four different algorithms (called as Garbage Collectors) that provide this task in HotSpot:
-\begin{itemize}
-	\item \textbf{serial collector}
-	\item \textbf{parallel (throughput) collector}
-	\item \textbf{concurrent (CMS) collector}
-	\item \textbf{G1 collector}
-\end{itemize}
-Every of garbage collectors has quite a different performance characteristics and is suitable for a different category of an application and environment. \cite{scott}
+%Another important role of any JVM implementations is automatic memory management known as \textbf{Garbage collections (GC)} (see section \ref{memory}). There are four different algorithms (called as Garbage Collectors) that provide this task in a HotSpot:
+%\begin{itemize}
+%	\item \textbf{serial collector}
+%	\item \textbf{parallel (throughput) collector}
+%	\item \textbf{concurrent (CMS) collector}
+%	\item \textbf{G1 collector}
+%\end{itemize}
+%Every of garbage collectors has quite a different performance characteristics and is suitable for a different category of an application and environment. \cite{scott}
 
 \subsection{Client compiler}\label{clientcomp}
 The HotSpot VM's client compiler is designed for faster application startup, quick compilation and smaller memory footprint. This type of compiler is typically suitable for GUI application because there is a responsiveness without jitter desired. \cite{hunt}
@@ -93,14 +95,70 @@ The name \textit{client} compiler comes from the command-line argument \texttt{-
 \subsection{Server compiler}\label{servercomp}
 The second HotSpot VM's compiler targets high throughput and peak performance. The server compiler uses the most powerful optimizations it can. The disadvantage of this behaviour is a fact, that time for getting an essential information for top optimization can be long. Concurrently, the overall memory footprint of server compiler is larger due to more data to handle. Native code produced by server compiler will be definitely more effective. Therefore advantages of high optimization of code depend on a run time of an application and the server compiler is suitable for long running applications. \cite{hunt}
 
-The \texttt{-server} option serves fo use the server compiler. The server compiler is also marked as \textit{compiler 2} or \textit{C2}.
+The \texttt{-server} option serves for use the server compiler. The server compiler is also marked as \textit{compiler 2} or \textit{C2}.
 
 A technique called \textit{tiered compilation} combines a client compiler fast startup and a server compiler high optimization. With the tiered compilation, the code is first compiled by the client compiler, as it becomes hot, it is recompiled by the server compiler. The tiered compilation is available only for server compiler\footnote{If command \texttt{java -client -XX:+TieredCompilation}\textit{ programName} is used, \texttt{-XX:+TieredCompilation} option is quietly turned off. \cite{scott}}. The tiered compilation was introduced in the JDK 7 and it becomes as default in the JDK 8. \cite{scott}
-\subsection{Generations}
-\subsection{Garbage collectors}
+\section{Memory management}\label{memory}
+The Java SE platform provides an automatic memory management. The JVM specification prescribes that any JVM implementation must ensure reclaiming unused memory -- unreachable objects also called \textit{garbage} or dead objects. A process of reclaiming unreachable objects is known as \textit{garbage collection} (GC). A developer does not care about complexity of memory allocation and \textit{garbage collection}. \cite{gctuning}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{fig/survive.png}
+	\caption{Typical distribution for lifetimes of objects. A majority of objects "die young". Taken from \cite{gctuning}.}
+	\label{survive}
+\end{figure}
+
+The \textit{weak generational hypothesis} is generally true for Java applications which means: \cite{hunt}
+\begin{itemize}
+	\item "Most allocated objects become unreachable quickly.
+	\item Few references from older to younger objects exist."
+\end{itemize}
+
+Therefore the Java HotSpot VM splits the heap\footnote{Heap is a memory area that JVM uses for residing the Java objects.} into two areas (also called spaces), which are referred to as generations: \cite{hunt}
+\begin{itemize}
+	\item \textbf{The young generation} -- the vast majority of new objects are allocated in this area. Most objects become into \textit{garbage} quickly and a small part of it survives a young generation collection -- \textit{minor} garbage collection. Reclaiming objects from this area is usually efficient because they occupy relatively a small space and mostly are dead. 
+	\item \textbf{The old generation} -- long-live objects are moved (also called \textit{promoted} or \textit{tenured}) to the old generation. This area is also known as \textit{tenured} space. The old generation is usually larger than the young generation and it grows slowly. \textit{Garbage collection} in \textit{tenured} space -- \textit{major} garbage collection is less frequent, but it can be quite lengthy.
+\end{itemize}
+
+%TODO zkus vytisknout a podivat se, jak to bude vypadat
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=7cm]{fig/heap.pdf}
+	\caption{A Java HotSpot VM heap division. Adjusted from \cite{hunt}.}
+	\label{heap}
+\end{figure}
+
+There is a more detailed heap division of JVM in the figure \ref{heap}. The young generation contains \textit{Eden} space and two \textit{Survivor} spaces. Almost all new objects are allocated in \textit{Eden} space (large objects can be allocated directly in the old generation) and if an object is live after at least one \textit{minor} garbage collection it moves to one of \textit{Survivor} space. The object has to be reachable after several \textit{minor} garbage collection to \textit{promoted} to the old generation. One of \textit{Survivor} space remains unused. A \textit{minor} garbage collection process is depicted in figure \ref{minor}.
+
+%TODO zkus vytisknout a podivat se, jak to bude vypadat
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13cm]{fig/minor.pdf}
+	\caption{\textit{Minor} garbage collection. Objects with a cross on left side are unreachable. Adjusted from \cite{hunt}.}
+	\label{minor}
+\end{figure}
+
+Compared to previous Java version, there is a one essential change in a Java 8 memory management. There is not \textit{Permanent} space anymore. Instead of this memory area we can find a \textit{Metaspace} in a current JVM. Both areas serve for storing class and method objects. As seen in the figure \ref{metaspace}, \textit{Permanent} generation is in heap while \textit{Metaspace} is not. It is part of native memory (process memory) which is only limited by the host operating system. \cite{metaspace}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{fig/metaspace.pdf}
+	\caption{A permanent space (generation) has replaced \textit{Metaspace}. Adjusted from \cite{metaspace}.}
+	\label{metaspace}
+\end{figure}
+
+
+% http://karunsubramanian.com/websphere/one-important-change-in-memory-management-in-java-8/ a metaspace
+% - velke objekty jdou rovnou do ... (dopln cast). Limit, kterym se nastavuje mez je pomoci -XXtlaSize and -XXlargeObjectLimit -- prozkoumat
+
+\section{Garbage collectors}
+	\subsection{Serial collector}
+	\subsection{Parallel collector}
+	\subsection{(CMS) collector}
+	\subsection{G1 collector}
 
 \section{Setting options}\label{secoptions}
-There are many options how to adjust behaviour JVM. For example, we may enforce to use parallel collector or set maximum heap\footnote{Heap is a memory area that JVM uses for residing the Java objects.} size. Options are divided into several categories:
+There are many options how to adjust JVM behaviour. For example, we may enforce to use parallel collector or set maximum heap size. Options are divided into several categories:
 \begin{itemize}
 	\item "\textbf{Standard options} -- are guaranteed to be supported by all implementations of the Java Virtual Machine (JVM). They are used for common actions, such as checking the version of the JRE, setting the class path, enabling verbose output, and so on.
 	\item \textbf{Non-standard options} -- are general purpose options that are specific to the Java HotSpot Virtual Machine, so they are not guaranteed to be supported by all JVM implementations, and are subject to change. These options start with \texttt{-X}.
@@ -341,6 +399,12 @@ Among important non-freely accessible tools belong:
 \chapter{Optimization JVM}
 
 \section{Application}
+%TODO zjistit jak je to s webovym serverem -- tzn. jestli by bylo mozny sehnat klienta, ktery bude na webovou aplikaci vysilat pozadavky a ladit tuto webovou aplikaci
+%Throughput and footprint are best measured using metrics particular to the application. For example, the throughput of a web server may be tested using a client load generator, whereas the footprint of the server may be measured on the Solaris operating system using the pmap command. However, pauses due to garbage collection are easily estimated by inspecting the diagnostic output of the virtual machine itself.
+%The command-line option -verbose:gc causes information about the heap and garbage collection to be printed at each collection. For example, here is output from a large server application:
+%http://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/generations.html#sthref19
+%strana 403 v \cite{hunt}
+
 The DaCapo benchmark suite version 9.12 was chosen for the primal experimentation with JVM tuning. This suite includes these benchmarks: \cite{DaCapo:paper}
 \begin{itemize}
 	\item \textbf{antlr} -- A parser generator and translator generator
@@ -367,7 +431,9 @@ Firstly, 10 runs of \textit{xalan} benchmark without warm-up period were realize
 
 %TODO dat tam taky mnou vybrane parametry z bigimpactu a provest mereni - temporary na xalanu
 %TODO One particularly important case of testing a full application occurs when multiple applications are run at the same time on the same hardware. Many aspects of the JVM are	tuned by default to assume that all machine resources are available to them, and if those JVMs are tested in isolation, they will behave well. If they are tested when other applications are present (including, but not limited to, other JVMs), their performance will be quite different. \cite{scott} p. 18}
+
 \section{JATT}
+%TODO podle flagu to neni aktualni pro verzi Javy 8 -- ma tam jeste parametr MaxPermSize. Bude to potreba aktualizovat podle porovnani...
 The JATT provides an interface to auto tune DaCapo benchmark. A command \texttt{\seqsplit{python\ src/dacapoTuner.py\ --source=xalan\ --iterations=1\ --flags=gc\ --configfile=dacapo\_results}} starts finding better JVM options settings with respect to GC operations. Searching took approximately an hour and result configuration is in figure \ref{jatttunedgcoptions}. \textit{Xalan} benchmark was performed with found JVM settings and measured values are in table \ref{jattgcresults}.
 
 Average optimized runtime was 10415 milliseconds what in comparison to default value 11385 milliseconds is improvement by more than 8 \%. Accumulated GC pause is shorter more than four times. To the contrary, there is huge increase in memory footprint -- from original 128 MB to 742 MB. After detailed exploration logs in GC Viewer is apparent that only one GC event occurred.
@@ -378,10 +444,15 @@ With the goal of reducing memory footprint another JATT flag was used -- namely 
 
 In this part of thesis will be \textit{Big Impact} options (in table \ref{bigimpactprimitive}) tune. As was described in section \ref{jatt}, the JATT tool allows tuning own set of JVM options. Chosen options are stored in \texttt{\seqsplit{src/Flags/Temporary/temporary.csv}} file and auto tuning initiates same command but with \textit{temporary} flag. This file was filled with \textit{Big Impact Primitive} options.
 
-The best options setting what JATT has found is in figure \ref{jatttunedbigimpactoptions}. \textit{Xalan} benchmark achieved average values 12009 milliseconds for runtime and 46 MB for memory footprint. It means the application has run by 5 \% longer than the application in the default settings and used about 82 MB less memory space. Measured values are in table \ref{jattbigimpactresults}.
+The best options setting what JATT has found is in figure \ref{jatttunedbigimpactoptions}. \textit{Xalan} benchmark achieved average values 12009 milliseconds for runtime and 46 MB for memory footprint. It means the application has run by 5 \% longer than the application running in the JVM with the default settings and used about 82 MB less memory space. Measured values are in table \ref{jattbigimpactresults}.
+
+Finally, auto tuning by JATT with all option set was initiated. The best JVM settings was found approximately in two hours. Overall searching phase took four hours but JATT could not improve settings  in the second half of auto tuning. Thanks to the using of all options runtime has been reduced by more than 20 \% at the expense of increment memory footprint from original 128 MB to 231 MB. Complete results are in the table \ref{jattalloptionsresults}.
+
+%TODO
+{\color{red} Vysledne nastaveni tedy obsahuje pres 600 parametru, coz se do papirove prilohy uz nevyda. Lze je prilozit jako elektronickou prilohu do archivu prace.}
 
 \section{ParamILS}
-This framework was used to optimize parameters stored in \texttt{\seqsplit{gc\_parameter\_model/params\_gc}} file which led to improvement time and space complexity as well. Specifically, \textit{Xalan} benchmark needed by 7 \% runtime and almost 60 \% memory space less to finished test. Measured values are in table \ref{ilsgcresults} and gained settings is in figure \ref{ilsgcoptions}.
+This framework was used to optimize parameters stored in \texttt{\seqsplit{gc\_parameter\_model/params\_gc}} file which led to improvement time and space complexity as well. Specifically, \textit{Xalan} benchmark needed by 7 \% runtime and almost 60 \% memory space less to finish the test. Measured values are in the table \ref{ilsgcresults} and gained settings is in figure \ref{ilsgcoptions}.
 
 \section{Comparison}
 All results are enclosed in chapter \ref{results}. In next two figures are graphically compared measured data. Apparently, setting which leads to the fastest application run is simultaneously the most memory consumption. Settings gained by JATT with \textit{memory} flag and ParamILS with GC parameter model are better in both observed metrics.
@@ -401,6 +472,10 @@ When chosen \textit{Big Impact} options was used to tune a JVM setting, it led t
 	\caption{An overall application memory footprint. Less is better.}
 	\label{footprint}
 \end{figure}
+
+\clearpage
+\chapter{Conclusion}
+Will be written in the end.
 
 \clearpage
 \bibliographystyle{ieeetran}
@@ -581,7 +656,7 @@ When chosen \textit{Big Impact} options was used to tune a JVM setting, it led t
 		10               & 8791                                                         & 231.5                                                                 & 0.05                                                                  & 1986.8                                                               & 26118.7                                                         \\ \hline
 		\textbf{Average} & \textbf{8767}                                                & \textbf{231.41}                                                       & \textbf{0.032}                                                        & \textbf{1612.45}                                                     & \textbf{64898.2}                                                \\ \hline
 	\end{tabular}
-	\caption{\textit{Xalan} benchmark runs with settings found by JATT with all options.}
+	\caption{\textit{Xalan} benchmark runs with settings found by JATT for all options.}
 	\label{jattalloptionsresults}
 \end{table}
 
