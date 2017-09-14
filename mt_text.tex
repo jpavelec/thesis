@@ -138,7 +138,7 @@ There is a more detailed heap division of JVM in the figure \ref{heap}. The youn
 	\label{minor}
 \end{figure}
 
-Compared to previous Java version, there is a one essential change in a Java 8 memory management. There is not \textit{Permanent} space anymore. Instead of this memory area we can find a \textit{Metaspace} in a current JVM. Both areas serve for storing class and method objects. As seen in the figure \ref{metaspace}, \textit{Permanent} generation is in heap while \textit{Metaspace} is not. It is part of native memory (process memory) which is only limited by the host operating system. \cite{metaspace}
+Compared to previous Java version, there is a one essential change in a Java 8 memory management. There is not \textit{Permanent} space anymore. Instead of this memory area we can find a \textit{Metaspace} in a current JVM. Both areas serve for storing class meta-data, method objects, interned strings and static variables. As seen in the figure \ref{metaspace}, \textit{Permanent} generation is in heap while \textit{Metaspace} is not. It is part of native memory (process memory) which is only limited by the host operating system. \cite{metaspace}
 
 \begin{figure}[h]
 	\centering
@@ -151,11 +151,32 @@ Compared to previous Java version, there is a one essential change in a Java 8 m
 % http://karunsubramanian.com/websphere/one-important-change-in-memory-management-in-java-8/ a metaspace
 % - velke objekty jdou rovnou do ... (dopln cast). Limit, kterym se nastavuje mez je pomoci -XXtlaSize and -XXlargeObjectLimit -- prozkoumat
 
+There are several algorithms which ensure \textit{Garbage collection} and called \textit{Garbage collectors}. These techniques how to deallocate unused memory will be described in next sections.
+
 \section{Garbage collectors}
-	\subsection{Serial collector}
-	\subsection{Parallel collector}
-	\subsection{(CMS) collector}
-	\subsection{G1 collector}
+%popsat pojmy: stop the world pauzu, mark, sweep, compact a vyndat to ze serialu, 
+At this place some terms used in next sections will be described.
+
+
+\subsection{Serial collector}
+The serial collector is the simplest one, designed for single-thread environments and small heaps (approximately up to 100 MB). Whenever it's working, the serial collector freezes all application threads and uses single thread to perform garbage collection, which is relatively efficient (there is no communication overhead between threads). Therefore, this collector is best-suited to single processor machines. Over the old generation, it uses a \textit{mark-compact} collection method. That means, older objects are moved to the beginning of memory so objects which will be promoted from the young generation will be allocated faster into the continuous chunk of memory.~\cite{gctuning}~\cite{hunt}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{fig/serialparallel.png}
+	\caption{A comparison serial and parallel \textit{garbage collectors}. The serial collector uses only one thread for \textit{garbage collection} while the parallel collector can capitalize a multiprocessor environment.~Taken from \cite{hunt}}
+	\label{serialparallel}
+\end{figure}
+
+\subsection{Parallel collector}
+The parallel collector (also known as \textit{Throughput collector}) is suitable for multiprocessor machines where applications with medium-sized to large-sized data sets are running. A name of this collector is derived from way how it processes a \textit{garbage} -- it uses multiple threads to perform \textit{garbage collection}. Figure \ref{serialparallel} describes a main difference between serial and parallel collectors. Both, \textit{minor} and \textit{major}\footnote{Since JDK 7u4. The serial collector was used for \textit{major collection} earlier. \cite{scott}} collections are performed in parallel, which can reduce GC overhead and \textit{stop-the-world} delay. \cite{gctuning} \cite{scott} \cite{hunt}
+
+\subsection{(CMS) collector}
+% navrzen aby odstranil dlouhe pauzy pri major GC
+% udelat intro, ze minor jsou kratke a major dlouhe pauzy -- Minor garbage collections do not typically cause long pauses. However, full garbage collections or compacting garbage collections, even though infrequent, can impose long pauses, especially when large Java heaps are involved.
+% minor GC bezi v podstate jako parallel colector => kratke stop the world pauzy
+% na pozadi bezi jedno nebo vice vlaken, v periodach scanuje old.g. a ktere odstranuje mrtve objekty z old generation bez zadneho compact. Tim padem dochazi u old. g. k fragmentaci. Pokud v teto casti haldy nejde alokovat nove objekty, provede se stop-the-world a pomoci serial collectoru se provede GC nad old.g. (jedno vlakno) a pote se pokracuje conccurent, background again dokud zase neni old.g. prilis fragmenovana
+\subsection{G1 collector}
 
 \section{Setting options}\label{secoptions}
 There are many options how to adjust JVM behaviour. For example, we may enforce to use parallel collector or set maximum heap size. Options are divided into several categories:
